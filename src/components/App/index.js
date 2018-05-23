@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
@@ -118,15 +119,15 @@ class App extends Component {
         <div className={classes.toolbar}/>
         <Divider />
         <List component="nav">
-          <ListItem button component="a" href="/">
+          <ListItem button component={Link} to="/">
             <ListItemText primary="All" />
           </ListItem>
           <Divider />
-          <ListItem button component="a" href="/1">
+          <ListItem button component={Link} to="/1">
             <ListItemText primary="Category 1" />
           </ListItem>
           <Divider />
-          <ListItem button component="a" href="/2">
+          <ListItem button component={Link} to="/2">
             <ListItemText primary="Category 2" />
           </ListItem>
         </List>
@@ -134,127 +135,129 @@ class App extends Component {
     );
 
     return (
-      <div className={classes.root}>
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              color='inherit'
-              aria-label='open drawer'
-              onClick={this.handleDrawerToggle}
-              className={classes.navIconHide}>
-              <MenuIcon />
-            </IconButton>
-            <Typography variant='title' color='inherit' className={classes.navBarTitle} noWrap>
-              GM - Readable
-            </Typography>
-            <IconButton
-              color='inherit'
-              aria-label='add post'
-              className={classes.navIconAddPost}>
-              <AddPostIcon />
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Hidden mdUp>
-          <Drawer
-            variant="temporary"
-            anchor="left"
-            open={mobileOpen}
-            onClose={this.handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden smDown implementation="css">
-          <Drawer
-            variant="permanent"
-            open
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Grid container justify='center' spacing={8}>
-            <Grid item xs={12}>
-              
-              <Card className={classes.card}>
-                <CardHeader
-                  avatar={
-                    <Avatar aria-label="Recipe" className={classes.avatar}>
-                      <FaceIcon />
-                    </Avatar>
-                  }
-                  action={
-                    <IconButton onClick={this.handleOpenEditDeleteMenu}>
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  title="Post Title Here"
-                  subheader="September 14, 2016"
-                />
+      <Router>
+        <div className={classes.root}>
+          <AppBar className={classes.appBar}>
+            <Toolbar>
+              <IconButton
+                color='inherit'
+                aria-label='open drawer'
+                onClick={this.handleDrawerToggle}
+                className={classes.navIconHide}>
+                <MenuIcon />
+              </IconButton>
+              <Typography variant='title' color='inherit' className={classes.navBarTitle} noWrap>
+                GM - Readable
+              </Typography>
+              <IconButton
+                color='inherit'
+                aria-label='add post'
+                className={classes.navIconAddPost}>
+                <AddPostIcon />
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+          <Hidden mdUp>
+            <Drawer
+              variant="temporary"
+              anchor="left"
+              open={mobileOpen}
+              onClose={this.handleDrawerToggle}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <Hidden smDown implementation="css">
+            <Drawer
+              variant="permanent"
+              open
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+            >
+              {drawer}
+            </Drawer>
+          </Hidden>
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <Grid container justify='center' spacing={8}>
+              <Grid item xs={12}>
+                
+                <Card className={classes.card}>
+                  <CardHeader
+                    avatar={
+                      <Avatar aria-label="Recipe" className={classes.avatar}>
+                        <FaceIcon />
+                      </Avatar>
+                    }
+                    action={
+                      <IconButton onClick={this.handleOpenEditDeleteMenu}>
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    title="Post Title Here"
+                    subheader="September 14, 2016"
+                  />
 
-                <Paper>
-                  <Menu
-                    id="fade-menu"
-                    anchorEl={anchorElement}
-                    open={Boolean(anchorElement)}
-                    onClose={this.handleCloseEditDeleteMenu}
-                    TransitionComponent={Fade}
-                  >
-                    <MenuItem className={classes.menuItem}>
-                      <ListItemIcon className={classes.icon}>
-                        <EditIcon />
-                      </ListItemIcon>
-                      <ListItemText inset primary="Edit" />
-                    </MenuItem>
-                    <MenuItem className={classes.menuItem}>
-                      <ListItemIcon className={classes.icon}>
-                        <DeleteIcon />
-                      </ListItemIcon>
-                      <ListItemText inset primary="Delete" />
-                    </MenuItem>
-                  </Menu>
-                </Paper>
+                  <Paper>
+                    <Menu
+                      id="fade-menu"
+                      anchorEl={anchorElement}
+                      open={Boolean(anchorElement)}
+                      onClose={this.handleCloseEditDeleteMenu}
+                      TransitionComponent={Fade}
+                    >
+                      <MenuItem className={classes.menuItem}>
+                        <ListItemIcon className={classes.icon}>
+                          <EditIcon />
+                        </ListItemIcon>
+                        <ListItemText inset primary="Edit" />
+                      </MenuItem>
+                      <MenuItem className={classes.menuItem}>
+                        <ListItemIcon className={classes.icon}>
+                          <DeleteIcon />
+                        </ListItemIcon>
+                        <ListItemText inset primary="Delete" />
+                      </MenuItem>
+                    </Menu>
+                  </Paper>
 
-                <CardContent>
-                  <Typography component="p">
-                    Post Content Here
-                  </Typography>
-                </CardContent>
-                <CardActions className={classes.actions} disableActionSpacing>
-                  <div className={classes.voteControls}>
-                    <IconButton aria-label="Vote-Up">
-                      <ArrowVoteUp />
-                    </IconButton>
-                    <Typography variant='button' color='inherit' noWrap>
-                      12
+                  <CardContent>
+                    <Typography component="p">
+                      Post Content Here
                     </Typography>
-                    <IconButton aria-label="Vote-Down">
-                      <ArrowVoteDown />
+                  </CardContent>
+                  <CardActions className={classes.actions} disableActionSpacing>
+                    <div className={classes.voteControls}>
+                      <IconButton aria-label="Vote-Up">
+                        <ArrowVoteUp />
+                      </IconButton>
+                      <Typography variant='button' color='inherit' noWrap>
+                        12
+                      </Typography>
+                      <IconButton aria-label="Vote-Down">
+                        <ArrowVoteDown />
+                      </IconButton>
+                    </div>
+                    <IconButton aria-label="Comments">
+                      <Badge badgeContent={999} color="secondary">
+                        <CommentIcon />
+                      </Badge>
                     </IconButton>
-                  </div>
-                  <IconButton aria-label="Comments">
-                    <Badge badgeContent={999} color="secondary">
-                      <CommentIcon />
-                    </Badge>
-                  </IconButton>
-                </CardActions>
-              </Card>
+                  </CardActions>
+                </Card>
 
+              </Grid>
             </Grid>
-          </Grid>
-        </main>
-      </div>
+          </main>
+        </div>
+      </Router>
     );
   }
 };
