@@ -32,6 +32,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ArrowVoteDown from '@material-ui/icons/ArrowDropDown';
 import ArrowVoteUp from '@material-ui/icons/ArrowDropUp';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import './App.css';
 
 const drawerWidth = 240;
@@ -81,6 +83,10 @@ const styles = (theme) => ({
     display: 'flex',
     width: '100%',
   },
+  sortingPostsTabs: {
+    flexGrow: 1,
+    marginBottom: theme.spacing.unit * 2,
+  },
   toolbar: theme.mixins.toolbar,
   voteControls: {
     display: 'flex',
@@ -95,6 +101,7 @@ class App extends Component {
   state = {
     anchorElement: null,
     mobileOpen: false,
+    selectedSortingMethod: 0,
   };
 
   handleDrawerToggle = () => {
@@ -108,10 +115,15 @@ class App extends Component {
   handleCloseEditDeleteMenu = () => {
     this.setState({ anchorElement: null });
   };
+  
+  // sorting method handler
+  handleChangeSortingMethod = (event, value) => {
+    this.setState({ selectedSortingMethod: value });
+  };
 
   render() {
     const { classes } = this.props;
-    const { anchorElement, mobileOpen } = this.state;
+    const { anchorElement, mobileOpen, selectedSortingMethod } = this.state;
 
     const drawer = (
       <div>
@@ -185,6 +197,18 @@ class App extends Component {
           </Hidden>
           <main className={classes.content}>
             <div className={classes.toolbar} />
+            <Paper className={classes.sortingPostsTabs}>
+              <Tabs
+                value={selectedSortingMethod}
+                onChange={this.handleChangeSortingMethod}
+                indicatorColor="primary"
+                textColor="primary"
+                centered
+              >
+                <Tab label="Popular" />
+                <Tab label="Recent" />
+              </Tabs>
+            </Paper>
             <Grid container justify='center' spacing={8}>
               <Grid item xs={12}>
                 
