@@ -32,7 +32,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ArrowVoteDown from '@material-ui/icons/ArrowDropDown';
 import ArrowVoteUp from '@material-ui/icons/ArrowDropUp';
-import classnames from 'classnames';
 import './App.css';
 
 const drawerWidth = 240;
@@ -111,7 +110,7 @@ class App extends Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
     const { anchorElement, mobileOpen } = this.state;
 
     const drawer = (
