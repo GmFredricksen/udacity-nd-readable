@@ -23,11 +23,22 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Fade from '@material-ui/core/Fade';
+import Paper from '@material-ui/core/Paper';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ArrowVoteDown from '@material-ui/icons/ArrowDropDown';
+import ArrowVoteUp from '@material-ui/icons/ArrowDropUp';
 import classnames from 'classnames';
 import './App.css';
 
 const drawerWidth = 240;
 const styles = (theme) => ({
+  actions: {
+    display: 'flex',
+  },
   appBar: {
     display: 'flex',
     position: 'absolute',
@@ -71,10 +82,18 @@ const styles = (theme) => ({
     width: '100%',
   },
   toolbar: theme.mixins.toolbar,
+  voteControls: {
+    display: 'flex',
+    flex: 1,
+    alignItems: 'center',
+    paddingLeft: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+  },
 })
 
 class App extends Component {
   state = {
+    anchorElement: null,
     mobileOpen: false,
   };
 
@@ -82,9 +101,17 @@ class App extends Component {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   }
 
+  // edit/delete menu handlers
+  handleOpenEditDeleteMenu = event => {
+    this.setState({ anchorElement: event.currentTarget });
+  };
+  handleCloseEditDeleteMenu = () => {
+    this.setState({ anchorElement: null });
+  };
+
   render() {
     const { classes, theme } = this.props;
-    const { mobileOpen } = this.state;
+    const { anchorElement, mobileOpen } = this.state;
 
     const drawer = (
       <div>
@@ -168,36 +195,58 @@ class App extends Component {
                     </Avatar>
                   }
                   action={
-                    <IconButton>
+                    <IconButton onClick={this.handleOpenEditDeleteMenu}>
                       <MoreVertIcon />
                     </IconButton>
                   }
                   title="Post Title Here"
                   subheader="September 14, 2016"
                 />
+
+                <Paper>
+                  <Menu
+                    id="fade-menu"
+                    anchorEl={anchorElement}
+                    open={Boolean(anchorElement)}
+                    onClose={this.handleCloseEditDeleteMenu}
+                    TransitionComponent={Fade}
+                  >
+                    <MenuItem className={classes.menuItem}>
+                      <ListItemIcon className={classes.icon}>
+                        <EditIcon />
+                      </ListItemIcon>
+                      <ListItemText inset primary="Edit" />
+                    </MenuItem>
+                    <MenuItem className={classes.menuItem}>
+                      <ListItemIcon className={classes.icon}>
+                        <DeleteIcon />
+                      </ListItemIcon>
+                      <ListItemText inset primary="Delete" />
+                    </MenuItem>
+                  </Menu>
+                </Paper>
+
                 <CardContent>
                   <Typography component="p">
                     Post Content Here
                   </Typography>
                 </CardContent>
                 <CardActions className={classes.actions} disableActionSpacing>
-                  <IconButton aria-label="Vote">
-                    {/* <VoteMechanism /> */}
-                  </IconButton>
+                  <div className={classes.voteControls}>
+                    <IconButton aria-label="Vote-Up">
+                      <ArrowVoteUp />
+                    </IconButton>
+                    <Typography variant='button' color='inherit' noWrap>
+                      12
+                    </Typography>
+                    <IconButton aria-label="Vote-Down">
+                      <ArrowVoteDown />
+                    </IconButton>
+                  </div>
                   <IconButton aria-label="Comments">
-                    <Badge badgeContent={4} color="secondary">
+                    <Badge badgeContent={999} color="secondary">
                       <CommentIcon />
                     </Badge>
-                  </IconButton>
-                  <IconButton
-                    className={classnames(classes.expand, {
-                      [classes.expandOpen]: this.state.expanded,
-                    })}
-                    onClick={this.handleExpandClick}
-                    aria-expanded={this.state.expanded}
-                    aria-label="Edit"
-                  >
-                    {/* <Edit - Delete /> */}
                   </IconButton>
                 </CardActions>
               </Card>
