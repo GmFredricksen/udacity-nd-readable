@@ -18,7 +18,6 @@ import FaceIcon from '@material-ui/icons/Face';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -226,6 +225,8 @@ class App extends Component {
                     }
                     title="Post Title Here"
                     subheader="September 14, 2016"
+                    component={Link}
+                    to="/1/1"
                   />
 
                   <Paper>
@@ -251,11 +252,6 @@ class App extends Component {
                     </Menu>
                   </Paper>
 
-                  <CardContent>
-                    <Typography component="p">
-                      Post Content Here
-                    </Typography>
-                  </CardContent>
                   <CardActions className={classes.actions} disableActionSpacing>
                     <div className={classes.voteControls}>
                       <IconButton aria-label="Vote-Up">
