@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Badge from '@material-ui/core/Badge';
@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -19,6 +20,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
@@ -47,6 +49,7 @@ const modalWidth = 500;
 const styles = (theme) => ({
   actions: {
     display: 'flex',
+    'justify-content': 'space-between',
   },
   addPostModal: {
     position: 'absolute',
@@ -65,6 +68,9 @@ const styles = (theme) => ({
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
+  },
+  commentsListBox: {
+    marginTop: theme.spacing.unit * 2,
   },
   content: {
     flexGrow: 1,
@@ -93,7 +99,6 @@ const styles = (theme) => ({
   },
   root: {
     flexGrow: 1,
-    height: 430,
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
@@ -107,7 +112,6 @@ const styles = (theme) => ({
   toolbar: theme.mixins.toolbar,
   voteControls: {
     display: 'flex',
-    flex: 1,
     alignItems: 'center',
     paddingLeft: theme.spacing.unit,
     paddingBottom: theme.spacing.unit,
@@ -160,11 +164,11 @@ class App extends Component {
             <ListItemText primary="All" />
           </ListItem>
           <Divider />
-          <ListItem button component={Link} to="/1">
+          <ListItem button component={Link} to="/cat1">
             <ListItemText primary="Category 1" />
           </ListItem>
           <Divider />
-          <ListItem button component={Link} to="/2">
+          <ListItem button component={Link} to="/cat2">
             <ListItemText primary="Category 2" />
           </ListItem>
         </List>
@@ -223,87 +227,88 @@ class App extends Component {
               {drawer}
             </Drawer>
           </Hidden>
-          <main className={classes.content}>
-            <div className={classes.toolbar} />
-            <Paper className={classes.sortingPostsTabs}>
-              <Tabs
-                value={selectedSortingMethod}
-                onChange={this.handleChangeSortingMethod}
-                indicatorColor="primary"
-                textColor="primary"
-                centered
-              >
-                <Tab label="Popular" />
-                <Tab label="Recent" />
-              </Tabs>
-            </Paper>
-            <Grid container justify='center' spacing={8}>
-              <Grid item xs={12}>
-                
-                <Card className={classes.card}>
-                  <CardHeader
-                    avatar={
-                      <Avatar aria-label="Recipe" className={classes.avatar}>
-                        <FaceIcon />
-                      </Avatar>
-                    }
-                    action={
-                      <IconButton onClick={this.handleOpenEditDeleteMenu}>
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
-                    title="Post Title Here"
-                    subheader="September 14, 2016"
-                    component={Link}
-                    to="/1/1"
-                  />
 
-                  <Paper>
-                    <Menu
-                      id="fade-menu"
-                      anchorEl={anchorElement}
-                      open={Boolean(anchorElement)}
-                      onClose={this.handleCloseEditDeleteMenu}
-                      TransitionComponent={Fade}
-                    >
-                      <MenuItem className={classes.menuItem}>
-                        <ListItemIcon className={classes.icon}>
-                          <EditIcon />
-                        </ListItemIcon>
-                        <ListItemText inset primary="Edit" />
-                      </MenuItem>
-                      <MenuItem className={classes.menuItem}>
-                        <ListItemIcon className={classes.icon}>
-                          <DeleteIcon />
-                        </ListItemIcon>
-                        <ListItemText inset primary="Delete" />
-                      </MenuItem>
-                    </Menu>
-                  </Paper>
+          <Route exact path="/" render={() => (
+            <main className={classes.content}>
+              <div className={classes.toolbar} />
+              <Paper className={classes.sortingPostsTabs}>
+                <Tabs
+                  value={selectedSortingMethod}
+                  onChange={this.handleChangeSortingMethod}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  centered
+                >
+                  <Tab label="Popular" />
+                  <Tab label="Recent" />
+                </Tabs>
+              </Paper>
+              <Grid container justify='center' spacing={8}>
+                <Grid item xs={12}>
+                  
+                  <Card className={classes.card}>
+                    <CardHeader
+                      avatar={
+                        <Avatar aria-label="Recipe" className={classes.avatar}>
+                          <FaceIcon />
+                        </Avatar>
+                      }
+                      action={
+                        <IconButton onClick={this.handleOpenEditDeleteMenu}>
+                          <MoreVertIcon />
+                        </IconButton>
+                      }
+                      title={<Link to="/cat1/1">Post Title Here</Link>}
+                      subheader={<Link to="/cat1/1"><em>September 14, 2016</em></Link>}
+                    />
 
-                  <CardActions className={classes.actions} disableActionSpacing>
-                    <div className={classes.voteControls}>
-                      <IconButton aria-label="Vote-Up">
-                        <ArrowVoteUp />
-                      </IconButton>
-                      <Typography variant='button' color='inherit' noWrap>
-                        12
-                      </Typography>
-                      <IconButton aria-label="Vote-Down">
-                        <ArrowVoteDown />
-                      </IconButton>
-                    </div>
-                    <IconButton aria-label="Comments">
-                      <Badge badgeContent={999} color="secondary">
-                        <CommentIcon />
-                      </Badge>
-                    </IconButton>
-                  </CardActions>
-                </Card>
+                    <Paper>
+                      <Menu
+                        id="fade-menu"
+                        anchorEl={anchorElement}
+                        open={Boolean(anchorElement)}
+                        onClose={this.handleCloseEditDeleteMenu}
+                        TransitionComponent={Fade}
+                      >
+                        <MenuItem className={classes.menuItem}>
+                          <ListItemIcon className={classes.icon}>
+                            <EditIcon />
+                          </ListItemIcon>
+                          <ListItemText inset primary="Edit" />
+                        </MenuItem>
+                        <MenuItem className={classes.menuItem}>
+                          <ListItemIcon className={classes.icon}>
+                            <DeleteIcon />
+                          </ListItemIcon>
+                          <ListItemText inset primary="Delete" />
+                        </MenuItem>
+                      </Menu>
+                    </Paper>
 
+                    <CardActions className={classes.actions} disableActionSpacing>
+                      <div className={classes.voteControls}>
+                        <IconButton aria-label="Vote-Up">
+                          <ArrowVoteUp />
+                        </IconButton>
+                        <Typography variant='button' color='inherit' noWrap>
+                          12
+                        </Typography>
+                        <IconButton aria-label="Vote-Down">
+                          <ArrowVoteDown />
+                        </IconButton>
+                      </div>
+                      <IconButton aria-label="Comments" component={Link} to="cat1/1">
+                        <Badge badgeContent={999} color="secondary">
+                          <CommentIcon />
+                        </Badge>
+                      </IconButton>
+                    </CardActions>
+                  </Card>
+
+                </Grid>
               </Grid>
-            </Grid>
-          </main>
+            </main>
+          )} />
 
           <Modal
             aria-labelledby="simple-modal-title"
@@ -358,6 +363,99 @@ class App extends Component {
               </form>
             </div>
           </Modal>
+
+          <Route exact path="/cat1/1" render={() => (
+            <section className={classes.content}>
+              <div className={classes.toolbar} />
+              <Card className={classes.card}>
+                <CardHeader
+                  avatar={
+                    <Avatar aria-label="Recipe" className={classes.avatar}>
+                      <FaceIcon />
+                    </Avatar>
+                  }
+                  action={
+                    <IconButton onClick={this.handleOpenEditDeleteMenu}>
+                      <MoreVertIcon />
+                    </IconButton>
+                  }
+                  title="Post Title Here"
+                  subheader="September 14, 2016"
+                />
+
+                <Paper>
+                  <Menu
+                    id="fade-menu"
+                    anchorEl={anchorElement}
+                    open={Boolean(anchorElement)}
+                    onClose={this.handleCloseEditDeleteMenu}
+                    TransitionComponent={Fade}
+                  >
+                    <MenuItem className={classes.menuItem}>
+                      <ListItemIcon className={classes.icon}>
+                        <EditIcon />
+                      </ListItemIcon>
+                      <ListItemText inset primary="Edit" />
+                    </MenuItem>
+                    <MenuItem className={classes.menuItem}>
+                      <ListItemIcon className={classes.icon}>
+                        <DeleteIcon />
+                      </ListItemIcon>
+                      <ListItemText inset primary="Delete" />
+                    </MenuItem>
+                  </Menu>
+                </Paper>
+
+                <CardContent>
+                  <Typography component="p">
+                    Post Content Here
+                  </Typography>
+                </CardContent>
+
+                <CardActions className={classes.actions} disableActionSpacing>
+                  <div className={classes.voteControls}>
+                    <IconButton aria-label="Vote-Up">
+                      <ArrowVoteUp />
+                    </IconButton>
+                    <Typography variant='button' color='inherit' noWrap>
+                      12
+                    </Typography>
+                    <IconButton aria-label="Vote-Down">
+                      <ArrowVoteDown />
+                    </IconButton>
+                  </div>
+                </CardActions>
+              </Card>
+
+              <Paper className={classes.commentsListBox}>
+                <List
+                  subheader={<ListSubheader component="div">Comments: 999</ListSubheader>}
+                >
+                  <Divider />
+                  <ListItem divider>
+                    <div className={classes.voteControls}>
+                      <IconButton aria-label="Vote-Up">
+                        <ArrowVoteUp />
+                      </IconButton>
+                      <Typography variant='button' color='inherit' noWrap>
+                        12
+                      </Typography>
+                      <IconButton aria-label="Vote-Down">
+                        <ArrowVoteDown />
+                      </IconButton>
+                    </div>
+                    <ListItemText
+                      primary="1st Comment"
+                      secondary="Author - September 14, 2016"
+                    />
+                    <IconButton onClick={this.handleOpenEditDeleteMenu}>
+                      <MoreVertIcon />
+                    </IconButton>
+                  </ListItem>
+                </List>
+              </Paper>
+            </section>
+          )} />
 
         </div>
       </Router>
