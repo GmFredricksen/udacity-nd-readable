@@ -23,8 +23,6 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Fade from '@material-ui/core/Fade';
@@ -41,6 +39,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
+import CategoriesDrawer from '../CategoriesDrawer';
 import SortingBar from '../SortingBar';
 
 import './App.css';
@@ -82,12 +81,6 @@ const styles = (theme) => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
   },
-  drawerPaper: {
-    width: drawerWidth,
-    [theme.breakpoints.up('md')]: {
-      position: 'relative',
-    },
-  },
   navBarTitle: {
     flex: 1,
   },
@@ -122,12 +115,12 @@ const styles = (theme) => ({
 class App extends Component {
   state = {
     anchorElement: null,
-    mobileOpen: false,
+    isMobileOpen: false,
     isCreatePostModalOpen: true,
   };
 
   handleDrawerToggle = () => {
-    this.setState({ mobileOpen: !this.state.mobileOpen });
+    this.setState({ isMobileOpen: !this.state.isMobileOpen });
   }
 
   // edit/delete menu handlers
@@ -148,27 +141,7 @@ class App extends Component {
 
   render() {
     const { classes } = this.props;
-    const { anchorElement, isCreatePostModalOpen, mobileOpen } = this.state;
-
-    const drawer = (
-      <div>
-        <div className={classes.toolbar}/>
-        <Divider />
-        <List component="nav">
-          <ListItem button component={Link} to="/">
-            <ListItemText primary="All" />
-          </ListItem>
-          <Divider />
-          <ListItem button component={Link} to="/cat1">
-            <ListItemText primary="Category 1" />
-          </ListItem>
-          <Divider />
-          <ListItem button component={Link} to="/cat2">
-            <ListItemText primary="Category 2" />
-          </ListItem>
-        </List>
-      </div>
-    );
+    const { anchorElement, isCreatePostModalOpen, isMobileOpen } = this.state;
 
     return (
       <Router>
@@ -197,33 +170,11 @@ class App extends Component {
               </IconButton>
             </Toolbar>
           </AppBar>
-          <Hidden mdUp>
-            <Drawer
-              variant="temporary"
-              anchor="left"
-              open={mobileOpen}
-              onClose={this.handleDrawerToggle}
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
-          <Hidden smDown implementation="css">
-            <Drawer
-              variant="permanent"
-              open
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-            >
-              {drawer}
-            </Drawer>
-          </Hidden>
+
+          <CategoriesDrawer
+            handleDrawerToggle={this.handleDrawerToggle}
+            isMobileOpen={isMobileOpen}
+          />
 
           <Route exact path="/" render={() => (
             <main className={classes.content}>
