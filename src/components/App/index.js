@@ -123,7 +123,7 @@ class App extends Component {
     anchorElement: null,
     mobileOpen: false,
     selectedSortingMethod: 0,
-    isCreatePostModalOpen: false,
+    isCreatePostModalOpen: true,
   };
 
   handleDrawerToggle = () => {
@@ -194,7 +194,9 @@ class App extends Component {
                 color='inherit'
                 aria-label='add post'
                 className={classes.navIconAddPost}
-                onClick={this.handleOpenCreatePostModal}
+                component={Link}
+                to='/create'
+                // onClick={this.handleOpenCreatePostModal}
               >
                 <AddPostIcon />
               </IconButton>
@@ -310,59 +312,61 @@ class App extends Component {
             </main>
           )} />
 
-          <Modal
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
-            open={isCreatePostModalOpen}
-            onClose={this.handleCloseCreatePostModal}
-          >
-            <div className={classes.addPostModal}>
-              <Typography variant="title" id="modal-title">
-                Add new Post
-              </Typography>
-              
-              <form className={classes.container} autoComplete="off">
-                <FormGroup>
-                  <TextField
-                    id="postTitle"
-                    label="Post Title"
-                    className={classes.textField}
-                    margin="normal"
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <TextField
-                    id="postMessage"
-                    label="Message"
-                    className={classes.textField}
-                    margin="normal"
-                    multiline
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="age-simple">Category</InputLabel>
-                    <Select value={0}>
-                      <MenuItem value={1}>Category 1</MenuItem>
-                      <MenuItem value={2}>Category 2</MenuItem>
-                    </Select>
-                  </FormControl>
-                </FormGroup>
-                <FormGroup>
-                  <Button
-                    className={classes.button}
-                    color="default"
-                    onClick={this.handleCloseCreatePostModal}
-                  >
-                    Cancel
-                  </Button>
-                  <Button className={classes.button} color="primary">
-                    Add
-                  </Button>
-                </FormGroup>
-              </form>
-            </div>
-          </Modal>
+          <Route exact path="/create" render={() => (
+            <Modal
+              aria-labelledby="simple-modal-title"
+              aria-describedby="simple-modal-description"
+              open={isCreatePostModalOpen}
+              onClose={this.handleCloseCreatePostModal}
+            >
+              <div className={classes.addPostModal}>
+                <Typography variant="title" id="modal-title">
+                  Add new Post
+                </Typography>
+                
+                <form className={classes.container} autoComplete="off">
+                  <FormGroup>
+                    <TextField
+                      id="postTitle"
+                      label="Post Title"
+                      className={classes.textField}
+                      margin="normal"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <TextField
+                      id="postMessage"
+                      label="Message"
+                      className={classes.textField}
+                      margin="normal"
+                      multiline
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <FormControl className={classes.formControl}>
+                      <InputLabel htmlFor="age-simple">Category</InputLabel>
+                      <Select value={0}>
+                        <MenuItem value={1}>Category 1</MenuItem>
+                        <MenuItem value={2}>Category 2</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </FormGroup>
+                  <FormGroup>
+                    <Button
+                      className={classes.button}
+                      color="default"
+                      onClick={this.handleCloseCreatePostModal}
+                    >
+                      Cancel
+                    </Button>
+                    <Button className={classes.button} color="primary">
+                      Add
+                    </Button>
+                  </FormGroup>
+                </form>
+              </div>
+            </Modal>
+          )} />
 
           <Route exact path="/cat1/1" render={() => (
             <section className={classes.content}>
