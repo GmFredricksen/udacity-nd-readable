@@ -51,6 +51,10 @@ const styles = (theme) => ({
     display: 'flex',
     'justify-content': 'space-between',
   },
+  addCommentForm: {
+    padding: theme.spacing.unit * 4,
+    marginTop: theme.spacing.unit * 2,
+  },
   addPostModal: {
     position: 'absolute',
     top: '30%',
@@ -430,6 +434,37 @@ class App extends Component {
                   </div>
                 </CardActions>
               </Card>
+
+              <Paper className={classes.addCommentForm}>
+                <Typography variant="heading" component="h5">
+                  Add new Comment
+                </Typography>
+                
+                <form className={classes.container} autoComplete="off">
+                  <FormGroup>
+                    <TextField
+                      id="authorName"
+                      label="Author"
+                      className={classes.textField}
+                      margin="normal"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <TextField
+                      id="commentMessage"
+                      label="Message"
+                      className={classes.textField}
+                      margin="normal"
+                      multiline
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Button className={classes.button} color="primary">
+                      Add Comment
+                    </Button>
+                  </FormGroup>
+                </form>
+              </Paper>
 
               <Paper className={classes.commentsListBox}>
                 <List
