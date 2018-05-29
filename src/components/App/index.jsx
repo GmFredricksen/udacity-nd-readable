@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Badge from '@material-ui/core/Badge';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,7 +10,6 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import CommentIcon from '@material-ui/icons/Comment';
 import MenuIcon from '@material-ui/icons/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AddPostIcon from '@material-ui/icons/PlaylistAdd';
@@ -40,6 +38,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 
 import CategoriesDrawer from '../CategoriesDrawer';
+import Post from '../Post';
 import SortingBar from '../SortingBar';
 
 import './App.css';
@@ -47,10 +46,6 @@ import './App.css';
 const drawerWidth = 240;
 const modalWidth = 500;
 const styles = (theme) => ({
-  actions: {
-    display: 'flex',
-    'justify-content': 'space-between',
-  },
   addCommentForm: {
     padding: theme.spacing.unit * 4,
     marginTop: theme.spacing.unit * 2,
@@ -104,12 +99,6 @@ const styles = (theme) => ({
     width: '100%',
   },
   toolbar: theme.mixins.toolbar,
-  voteControls: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingLeft: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-  },
 })
 
 class App extends Component {
@@ -122,14 +111,6 @@ class App extends Component {
   handleDrawerToggle = () => {
     this.setState({ isMobileOpen: !this.state.isMobileOpen });
   }
-
-  // edit/delete menu handlers
-  handleOpenEditDeleteMenu = event => {
-    this.setState({ anchorElement: event.currentTarget });
-  };
-  handleCloseEditDeleteMenu = () => {
-    this.setState({ anchorElement: null });
-  };
 
   // open/close create post modal
   handleOpenCreatePostModal = () => {
@@ -183,68 +164,7 @@ class App extends Component {
               <SortingBar />
 
               <Grid container justify='center' spacing={8}>
-                <Grid item xs={12}>
-                  
-                  <Card className={classes.card}>
-                    <CardHeader
-                      avatar={
-                        <Avatar aria-label="Recipe" className={classes.avatar}>
-                          <FaceIcon />
-                        </Avatar>
-                      }
-                      action={
-                        <IconButton onClick={this.handleOpenEditDeleteMenu}>
-                          <MoreVertIcon />
-                        </IconButton>
-                      }
-                      title={<Link to="/cat1/1">Post Title Here</Link>}
-                      subheader={<Link to="/cat1/1"><em>September 14, 2016</em></Link>}
-                    />
-
-                    <Paper>
-                      <Menu
-                        id="fade-menu"
-                        anchorEl={anchorElement}
-                        open={Boolean(anchorElement)}
-                        onClose={this.handleCloseEditDeleteMenu}
-                        TransitionComponent={Fade}
-                      >
-                        <MenuItem className={classes.menuItem}>
-                          <ListItemIcon className={classes.icon}>
-                            <EditIcon />
-                          </ListItemIcon>
-                          <ListItemText inset primary="Edit" />
-                        </MenuItem>
-                        <MenuItem className={classes.menuItem}>
-                          <ListItemIcon className={classes.icon}>
-                            <DeleteIcon />
-                          </ListItemIcon>
-                          <ListItemText inset primary="Delete" />
-                        </MenuItem>
-                      </Menu>
-                    </Paper>
-
-                    <CardActions className={classes.actions} disableActionSpacing>
-                      <div className={classes.voteControls}>
-                        <IconButton aria-label="Vote-Up">
-                          <ArrowVoteUp />
-                        </IconButton>
-                        <Typography variant='button' color='inherit' noWrap>
-                          12
-                        </Typography>
-                        <IconButton aria-label="Vote-Down">
-                          <ArrowVoteDown />
-                        </IconButton>
-                      </div>
-                      <IconButton aria-label="Comments" component={Link} to="cat1/1">
-                        <Badge badgeContent={999} color="secondary">
-                          <CommentIcon />
-                        </Badge>
-                      </IconButton>
-                    </CardActions>
-                  </Card>
-
-                </Grid>
+                <Post />
               </Grid>
             </main>
           )} />
