@@ -101,7 +101,7 @@ class Post extends Component {
               </IconButton>
               <Typography variant='button' color='inherit' noWrap>
                 12
-                        </Typography>
+              </Typography>
               <IconButton aria-label="Vote-Down">
                 <ArrowVoteDown />
               </IconButton>
