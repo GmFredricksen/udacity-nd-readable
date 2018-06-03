@@ -119,7 +119,9 @@ class App extends Component {
               <SortingBar />
 
               <Grid container justify='center' spacing={8}>
-                <Post />
+                <Grid item xs={12}>
+                  <Post />
+                </Grid>
               </Grid>
             </main>
           )} />
