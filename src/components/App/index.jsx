@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { getPosts } from '../../actions';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -142,5 +144,11 @@ class App extends Component {
     );
   }
 };
+
+function mapDispatchToProps (dispatch) {
+  return {
+    getPosts: (data) => dispatch(getPosts(data)),
+  }
+}
 
 export default withStyles(styles)(App);

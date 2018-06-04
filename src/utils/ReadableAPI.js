@@ -15,15 +15,15 @@ const headers = {
 /**
  * POST
   */
-export const get = (postId) =>
+export const getPost = (postId) =>
   fetch(`${api}/posts/${postId}`, { headers })
     .then(res => res.json())
     .then(data => data.post)
 
-// export const getAll = () =>
-//   fetch(`${api}/books`, { headers })
-//     .then(res => res.json())
-//     .then(data => data.books)
+export const getPosts = () =>
+  fetch(`${api}/posts`, { headers })
+    .then(res => res.json())
+    .then(data => data.posts)
 
 // export const update = (book, shelf) =>
 //   fetch(`${api}/books/${book.id}`, {
