@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import ArrowVoteDown from '@material-ui/icons/ArrowDropDown';
-import ArrowVoteUp from '@material-ui/icons/ArrowDropUp';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormGroup from '@material-ui/core/FormGroup';
 
-import MenuOfActionsOnEntity from '../MenuOfActionsOnEntity';
+import Comment from '../Comment';
 import Post from '../Post';
 
 const styles = (theme) => ({
@@ -79,24 +74,8 @@ class PostDetails extends Component {
             subheader={<ListSubheader component="div">Comments: 999</ListSubheader>}
           >
             <Divider />
-            <ListItem divider>
-              <div className={classes.voteControls}>
-                <IconButton aria-label="Vote-Up">
-                  <ArrowVoteUp />
-                </IconButton>
-                <Typography variant='button' color='inherit' noWrap>
-                  12
-                </Typography>
-                <IconButton aria-label="Vote-Down">
-                  <ArrowVoteDown />
-                </IconButton>
-              </div>
-              <ListItemText
-                primary="1st Comment"
-                secondary="Author - September 14, 2016"
-              />
-              <MenuOfActionsOnEntity />
-            </ListItem>
+            
+            <Comment />
           </List>
         </Paper>
       </section>
