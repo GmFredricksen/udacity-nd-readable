@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import ArrowVoteDown from '@material-ui/icons/ArrowDropDown';
-import ArrowVoteUp from '@material-ui/icons/ArrowDropUp';
 import Avatar from '@material-ui/core/Avatar';
 import Badge from '@material-ui/core/Badge';
 import Card from '@material-ui/core/Card';
@@ -15,17 +13,12 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 
 import MenuOfActionsOnEntity from '../MenuOfActionsOnEntity';
+import VotingSystem from '../VotingSystem';
 
 const styles = (theme) => ({
   postActions: {
     display: 'flex',
     'justify-content': 'space-between',
-  },
-  voteControls: {
-    display: 'flex',
-    alignItems: 'center',
-    paddingLeft: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
   },
   content: {
     flexGrow: 1,
@@ -59,17 +52,7 @@ class Post extends Component {
         </CardContent>
 
         <CardActions className={classes.postActions} disableActionSpacing>
-          <div className={classes.voteControls}>
-            <IconButton aria-label="Vote-Up">
-              <ArrowVoteUp />
-            </IconButton>
-            <Typography variant='button' color='inherit' noWrap>
-              12
-            </Typography>
-            <IconButton aria-label="Vote-Down">
-              <ArrowVoteDown />
-            </IconButton>
-          </div>
+          <VotingSystem />
           <IconButton aria-label="Comments" component={Link} to="cat1/1">
             <Badge badgeContent={999} color="secondary">
               <CommentIcon />
