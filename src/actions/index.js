@@ -1,10 +1,10 @@
-import { getPosts } from '../utils/ReadableAPI';
+// import { getPosts } from '../utils/ReadableAPI';
 
-export const GET_POSTS = 'GET_POSTS';
+// export const GET_POSTS = 'GET_POSTS';
 
-export function getPosts () {
-  return {
-    type: GET_POSTS,
-    posts: getPosts(),
-  }
-}
+// export function getPosts () {
+//   return {
+//     type: GET_POSTS,
+//     posts: getPosts(),
+//   }
+// }
