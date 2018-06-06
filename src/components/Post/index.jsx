@@ -43,8 +43,8 @@ class Post extends Component {
             </Avatar>
           }
           action={<MenuOfActionsOnEntity />}
-          title={<Link to="/cat1/1">{post.title}</Link>}
-          subheader={<Link to="/cat1/1">{fecha.format(post.timestamp, 'mediumDate')} - <em>{post.author}</em></Link>}
+          title={<Link to={`/${post.category}/${post.id}`}>{post.title}</Link>}
+          subheader={<Link to={`/${post.category}/${post.id}`}>{fecha.format(post.timestamp, 'mediumDate')} - <em>{post.author}</em></Link>}
         />
 
         <CardContent>
@@ -55,7 +55,7 @@ class Post extends Component {
 
         <CardActions className={classes.postActions} disableActionSpacing>
           <VotingSystem voteScore={post.voteScore} />
-          <IconButton aria-label="Comments" component={Link} to="cat1/1">
+          <IconButton aria-label="Comments" component={Link} to={`/${post.category}/${post.id}`}>
             <Badge badgeContent={post.commentCount} color="secondary">
               <CommentIcon />
             </Badge>
