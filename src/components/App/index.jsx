@@ -13,6 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
 import CategoriesDrawer from '../CategoriesDrawer';
+import PostsList from '../PostsList';
 import Post from '../Post';
 import PostDetails from '../PostDetails';
 import PostModal from '../PostModal';
@@ -65,14 +66,14 @@ class App extends Component {
     isMobileOpen: false,
     isCreatePostModalOpen: true,
     categories: [],
-    posts: [],
+    // posts: [],
   };
 
   componentDidMount() {
     ReadableAPI.getCategories()
       .then((categories) => this.setState({ categories }));
-    ReadableAPI.getPosts()
-      .then((posts) => this.setState({ posts }));
+    // ReadableAPI.getPosts()
+    //   .then((posts) => this.setState({ posts }));
   }
 
   handleDrawerToggle = () => {
@@ -126,21 +127,11 @@ class App extends Component {
           />
 
           <Route exact path="/" render={() => (
-            <main className={classes.content}>
-              <div className={classes.toolbar} />
-              
-              <SortingBar />
+            <PostsList />
+          )} />
 
-              <Grid container justify='center' spacing={8}>
-              { posts.length ?
-                posts.map((post) => (
-                  <Grid key={post.id} item xs={12}>
-                    <Post post={post} />
-                  </Grid>
-                )) : ''
-              }
-              </Grid>
-            </main>
+          <Route exact path="/:category" render={({ match }) => (
+            <PostsList category={match.params.category} />
           )} />
 
           <Route exact path="/create" render={() => (
