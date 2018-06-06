@@ -23,8 +23,16 @@ export const getPost = (postId) =>
 export const getPosts = () =>
   fetch(`${api}/posts`, { headers })
     .then(res => res.json())
-    .then(data => data.posts)
+    .then(data => data)
 
+/**
+ * CATEGORY
+  */
+export const getCategories = () =>
+  fetch(`${api}/categories`, { headers })
+    .then(res => res.json())
+    .then(data => data.categories)
+    
 // export const update = (book, shelf) =>
 //   fetch(`${api}/books/${book.id}`, {
 //     method: 'PUT',
