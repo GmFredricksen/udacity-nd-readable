@@ -150,8 +150,8 @@ class App extends Component {
             />
           )} />
 
-          <Route exact path="/cat1/1" render={() => (
-            <PostDetails />
+          <Route exact path="/:category/:post_id" render={({ match }) => (
+            <PostDetails postId={match.params.post_id} />
           )} />
 
         </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import * as ReadableAPI from '../../utils/ReadableAPI';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
@@ -29,14 +30,25 @@ const styles = (theme) => ({
 });
 
 class PostDetails extends Component {
+  state = {
+    post: null,
+  }
+  componentDidMount() {
+    const postId = this.props.postId;
+
+    ReadableAPI.getPost(postId)
+      .then((post) => this.setState({ post }));
+  }
+
   render() {
     const { classes } = this.props;
+    const { post } = this.state;
 
     return (
       <section className={classes.content}>
         <div className={classes.toolbar} />
         
-        <Post />
+        <Post post={post} />
 
         <Paper className={classes.addCommentForm}>
           <Typography variant="headline" component="h5">
@@ -69,15 +81,22 @@ class PostDetails extends Component {
           </form>
         </Paper>
 
-        <Paper className={classes.commentsListBox}>
-          <List
-            subheader={<ListSubheader component="div">Comments: 999</ListSubheader>}
-          >
-            <Divider />
-            
-            <Comment />
-          </List>
-        </Paper>
+          <Paper className={classes.commentsListBox}>
+            { post &&
+              <List
+                subheader={<ListSubheader component="div">Comments: {post.commentCount}</ListSubheader>}
+              >
+                <Divider />
+                { Number(post.commentCount) ?
+                  <Comment />
+                  :
+                  <Typography component="p">
+                    No comments available
+                  </Typography>
+                }
+              </List>
+            }
+          </Paper>
       </section>
     );
   }
