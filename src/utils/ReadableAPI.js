@@ -18,7 +18,7 @@ const headers = {
 export const getPost = (postId) =>
   fetch(`${api}/posts/${postId}`, { headers })
     .then(res => res.json())
-    .then(data => data.post)
+    .then(data => data)
 
 export const getPosts = () =>
   fetch(`${api}/posts`, { headers })
