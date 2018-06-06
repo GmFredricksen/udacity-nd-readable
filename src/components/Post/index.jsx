@@ -11,6 +11,7 @@ import CommentIcon from '@material-ui/icons/Comment';
 import FaceIcon from '@material-ui/icons/Face';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import fecha from 'fecha';
 
 import MenuOfActionsOnEntity from '../MenuOfActionsOnEntity';
 import VotingSystem from '../VotingSystem';
@@ -33,6 +34,7 @@ class Post extends Component {
     const { classes, post } = this.props;
 
     return (
+      post ?
       <Card className={classes.card}>
         <CardHeader
           avatar={
@@ -42,7 +44,7 @@ class Post extends Component {
           }
           action={<MenuOfActionsOnEntity />}
           title={<Link to="/cat1/1">{post.title}</Link>}
-          subheader={<Link to="/cat1/1"><em>{post.timestamp}</em></Link>}
+          subheader={<Link to="/cat1/1">{fecha.format(post.timestamp, 'mediumDate')} - <em>{post.author}</em></Link>}
         />
 
         <CardContent>
@@ -52,13 +54,21 @@ class Post extends Component {
         </CardContent>
 
         <CardActions className={classes.postActions} disableActionSpacing>
-          <VotingSystem />
+          <VotingSystem voteScore={post.voteScore} />
           <IconButton aria-label="Comments" component={Link} to="cat1/1">
-            <Badge badgeContent={999} color="secondary">
+            <Badge badgeContent={post.commentCount} color="secondary">
               <CommentIcon />
             </Badge>
           </IconButton>
         </CardActions>
+      </Card>
+      :
+      <Card className={classes.card}>
+        <CardContent>
+          <Typography component="p">
+            No Post infos to show
+          </Typography>
+        </CardContent>
       </Card>
     );
   }

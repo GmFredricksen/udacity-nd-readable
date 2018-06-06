@@ -16,7 +16,7 @@ const styles = (theme) => ({
 
 class VotingSystem extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, voteScore } = this.props;
 
     return (
       <div className={classes.voteControls}>
@@ -24,8 +24,8 @@ class VotingSystem extends Component {
           <ArrowVoteUp />
         </IconButton>
         <Typography variant='button' color='inherit' noWrap>
-          12
-          </Typography>
+          { voteScore }
+        </Typography>
         <IconButton aria-label="Vote-Down">
           <ArrowVoteDown />
         </IconButton>
