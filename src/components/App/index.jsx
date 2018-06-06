@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { getPosts } from '../../actions';
+// import { connect } from 'react-redux';
+// import { getPosts } from '../../actions';
+import * as ReadableAPI from '../../utils/ReadableAPI';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -63,7 +64,16 @@ class App extends Component {
   state = {
     isMobileOpen: false,
     isCreatePostModalOpen: true,
+    categories: [],
+    posts: [],
   };
+
+  componentDidMount() {
+    ReadableAPI.getCategories()
+      .then((categories) => this.setState({ categories }));
+    ReadableAPI.getPosts()
+      .then((posts) => this.setState({ posts }));
+  }
 
   handleDrawerToggle = () => {
     this.setState({ isMobileOpen: !this.state.isMobileOpen });
@@ -79,7 +89,7 @@ class App extends Component {
 
   render() {
     const { classes } = this.props;
-    const { isCreatePostModalOpen, isMobileOpen } = this.state;
+    const { isCreatePostModalOpen, isMobileOpen, categories, posts } = this.state;
 
     return (
       <Router>
@@ -112,6 +122,7 @@ class App extends Component {
           <CategoriesDrawer
             handleDrawerToggle={this.handleDrawerToggle}
             isMobileOpen={isMobileOpen}
+            categories={categories}
           />
 
           <Route exact path="/" render={() => (
@@ -121,9 +132,13 @@ class App extends Component {
               <SortingBar />
 
               <Grid container justify='center' spacing={8}>
-                <Grid item xs={12}>
-                  <Post />
-                </Grid>
+              { posts.length ?
+                posts.map((post) => (
+                  <Grid key={post.id} item xs={12}>
+                    <Post post={post} />
+                  </Grid>
+                )) : ''
+              }
               </Grid>
             </main>
           )} />
@@ -145,10 +160,10 @@ class App extends Component {
   }
 };
 
-function mapDispatchToProps (dispatch) {
-  return {
-    getPosts: (data) => dispatch(getPosts(data)),
-  }
-}
+// function mapDispatchToProps (dispatch) {
+//   return {
+//     getPosts: (data) => dispatch(getPosts(data)),
+//   }
+// }
 
 export default withStyles(styles)(App);

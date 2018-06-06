@@ -21,7 +21,7 @@ const styles = (theme) => ({
 
 class CategoriesDrawer extends Component {
   render() {
-    const { classes, handleDrawerToggle, isMobileOpen } = this.props;
+    const { categories, classes, handleDrawerToggle, isMobileOpen } = this.props;
 
     const drawer = (
       <div>
@@ -32,13 +32,13 @@ class CategoriesDrawer extends Component {
             <ListItemText primary="All" />
           </ListItem>
           <Divider />
-          <ListItem button component={Link} to="/cat1">
-            <ListItemText primary="Category 1" />
-          </ListItem>
-          <Divider />
-          <ListItem button component={Link} to="/cat2">
-            <ListItemText primary="Category 2" />
-          </ListItem>
+          { categories.length ?
+            categories.map((category) => (
+              <ListItem key={category.name} divider button component={Link} to={`/${category.name}`}>
+                <ListItemText primary={category.name} />
+              </ListItem>
+            )) : ''
+          }
         </List>
       </div>
     );

@@ -30,7 +30,7 @@ const styles = (theme) => ({
 
 class Post extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, post } = this.props;
 
     return (
       <Card className={classes.card}>
@@ -41,13 +41,13 @@ class Post extends Component {
             </Avatar>
           }
           action={<MenuOfActionsOnEntity />}
-          title={<Link to="/cat1/1">Post Title Here</Link>}
-          subheader={<Link to="/cat1/1"><em>September 14, 2016</em></Link>}
+          title={<Link to="/cat1/1">{post.title}</Link>}
+          subheader={<Link to="/cat1/1"><em>{post.timestamp}</em></Link>}
         />
 
         <CardContent>
           <Typography component="p">
-            Post Content Here
+            {post.body}
           </Typography>
         </CardContent>
 
