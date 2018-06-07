@@ -5,7 +5,6 @@ import * as ReadableAPI from '../../utils/ReadableAPI';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Grid from '@material-ui/core/Grid';
 import MenuIcon from '@material-ui/icons/Menu';
 import AddPostIcon from '@material-ui/icons/PlaylistAdd';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,10 +13,8 @@ import Typography from '@material-ui/core/Typography';
 
 import CategoriesDrawer from '../CategoriesDrawer';
 import PostsList from '../PostsList';
-import Post from '../Post';
 import PostDetails from '../PostDetails';
 import PostModal from '../PostModal';
-import SortingBar from '../SortingBar';
 
 import './App.css';
 
@@ -66,14 +63,11 @@ class App extends Component {
     isMobileOpen: false,
     isCreatePostModalOpen: true,
     categories: [],
-    // posts: [],
   };
 
   componentDidMount() {
     ReadableAPI.getCategories()
       .then((categories) => this.setState({ categories }));
-    // ReadableAPI.getPosts()
-    //   .then((posts) => this.setState({ posts }));
   }
 
   handleDrawerToggle = () => {
@@ -150,11 +144,5 @@ class App extends Component {
     );
   }
 };
-
-// function mapDispatchToProps (dispatch) {
-//   return {
-//     getPosts: (data) => dispatch(getPosts(data)),
-//   }
-// }
 
 export default withStyles(styles)(App);
