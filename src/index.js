@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import { createStore, applyMiddleware, compose } from 'redux';
-// import reducer from './reducers';
+import reducer from './reducers';
 import { Provider } from 'react-redux';
 
 const logger = store => next => action => {
@@ -15,18 +15,18 @@ const logger = store => next => action => {
   return result
 }
 
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
-// const store = createStore(
-//   reducer,
-//   composeEnhancers(
-//     applyMiddleware(logger)
-//   )
-// )
+const store = createStore(
+  reducer,
+  composeEnhancers(
+    applyMiddleware(logger)
+  )
+)
 
 ReactDOM.render(
-  // <Provider store={store}>
-    <App />,
-  // </Provider>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('readable')
 );
