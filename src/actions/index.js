@@ -1,10 +1,10 @@
 // import { getPosts } from '../utils/ReadableAPI';
 
-// export const GET_POSTS = 'GET_POSTS';
+export const SET_CATEGORIES = 'SET_CATEGORIES';
 
-// export function getPosts () {
-//   return {
-//     type: GET_POSTS,
-//     posts: getPosts(),
-//   }
-// }
+export function setCategories (categories) {
+  return {
+    type: SET_CATEGORIES,
+    categories,
+  }
+}

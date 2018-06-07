@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-// import { getPosts } from '../../actions';
+import { connect } from 'react-redux';
+import { setCategories } from '../../actions';
 import * as ReadableAPI from '../../utils/ReadableAPI';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -43,7 +43,7 @@ const styles = (theme) => ({
     },
   },
   navIconAddPost: {
-    
+
   },
   paper: {
     padding: '15px',
@@ -66,8 +66,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    ReadableAPI.getCategories()
-      .then((categories) => this.setState({ categories }));
+    this.props.getCategories();
   }
 
   handleDrawerToggle = () => {
@@ -83,8 +82,8 @@ class App extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { isCreatePostModalOpen, isMobileOpen, categories, posts } = this.state;
+    const { categories, classes } = this.props;
+    const { isCreatePostModalOpen, isMobileOpen } = this.state;
 
     return (
       <Router>
@@ -107,7 +106,7 @@ class App extends Component {
                 className={classes.navIconAddPost}
                 component={Link}
                 to='/create'
-                // onClick={this.handleOpenCreatePostModal}
+              // onClick={this.handleOpenCreatePostModal}
               >
                 <AddPostIcon />
               </IconButton>
@@ -145,4 +144,22 @@ class App extends Component {
   }
 };
 
-export default withStyles(styles)(App);
+function mapStateToProps({ categories }) {
+  return {
+    categories,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getCategories: () => {
+      ReadableAPI.getCategories()
+        .then((categories) => dispatch(setCategories(categories)));
+    },
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withStyles(styles)(App));
