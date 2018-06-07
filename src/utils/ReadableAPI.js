@@ -20,15 +20,10 @@ export const getPost = (postId) =>
     .then(res => res.json())
     .then(data => data)
 
-export const getPosts = () =>
-  fetch(`${api}/posts`, { headers })
+export const getPosts = (category = '') =>
+  fetch(`${api}${category ? '/' + category : ''}/posts`, { headers })
     .then(res => res.json())
     .then(data => data)
-
-export const getPostsForCategory = (category) =>
-    fetch(`${api}/${category}/posts`, { headers })
-      .then(res => res.json())
-      .then(data => data)
 
 /**
  * CATEGORY
