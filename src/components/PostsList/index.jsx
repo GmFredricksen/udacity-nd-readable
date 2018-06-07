@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { setPosts } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import * as ReadableAPI from '../../utils/ReadableAPI';
 import Grid from '@material-ui/core/Grid';
@@ -20,30 +22,22 @@ const styles = (theme) => ({
 });
 
 class PostsList extends Component {
-  state = {
-    posts: []
-  }
-
   componentDidMount() {
     if ( this.props.category ) {
-      ReadableAPI.getPostsForCategory(this.props.category)
-        .then((posts) => this.setState({ posts }));
+      this.props.getPosts(this.props.category);
     } else {
-      ReadableAPI.getPosts()
-        .then((posts) => this.setState({ posts }));
+      this.props.getPosts();
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.category) {
-      ReadableAPI.getPostsForCategory(nextProps.category)
-        .then((posts) => this.setState({ posts }));
+      this.props.getPosts(nextProps.category);
     }
   }
 
   render() {
-    const { classes } = this.props;
-    const { posts } = this.state;
+    const { classes, posts } = this.props;
 
     return (
       <main className={classes.content}>
@@ -65,4 +59,22 @@ class PostsList extends Component {
   }
 }
 
-export default withStyles(styles)(PostsList);
+function mapStateToProps({ posts }) {
+  return {
+    posts,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getPosts: (category) => {
+      ReadableAPI.getPosts(category)
+        .then((posts) => dispatch(setPosts(posts)));
+    },
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withStyles(styles)(PostsList));
