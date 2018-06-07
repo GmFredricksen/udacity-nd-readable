@@ -1,5 +1,3 @@
-// import { getPosts } from '../utils/ReadableAPI';
-
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 
 export function setCategories (categories) {
