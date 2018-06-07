@@ -62,7 +62,6 @@ class App extends Component {
   state = {
     isMobileOpen: false,
     isCreatePostModalOpen: true,
-    categories: [],
   };
 
   componentDidMount() {
