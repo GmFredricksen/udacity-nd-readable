@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Fade from '@material-ui/core/Fade';
 import IconButton from '@material-ui/core/IconButton';
@@ -57,5 +58,9 @@ class MenuOfActionsOnEntity extends Component {
     )
   }
 }
+
+MenuOfActionsOnEntity.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles()(MenuOfActionsOnEntity);
