@@ -75,9 +75,13 @@ class Post extends Component {
   }
 }
 
+Post.defaultProps = {
+  post: null,
+};
+
 Post.propTypes = {
   classes: PropTypes.object.isRequired,
-  post: PropTypes.object.isRequired,
+  post: PropTypes.object,
 };
 
 export default withStyles(styles)(Post);
