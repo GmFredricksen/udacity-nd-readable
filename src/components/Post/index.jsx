@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
@@ -35,43 +36,48 @@ class Post extends Component {
 
     return (
       post ?
-      <Card className={classes.card}>
-        <CardHeader
-          avatar={
-            <Avatar aria-label="Recipe" className={classes.avatar}>
-              <FaceIcon />
-            </Avatar>
-          }
-          action={<MenuOfActionsOnEntity />}
-          title={<Link to={`/${post.category}/${post.id}`}>{post.title}</Link>}
-          subheader={<Link to={`/${post.category}/${post.id}`}>{fecha.format(post.timestamp, 'mediumDate')} - <em>{post.author}</em></Link>}
-        />
+        <Card className={classes.card}>
+          <CardHeader
+            avatar={
+              <Avatar aria-label="Recipe" className={classes.avatar}>
+                <FaceIcon />
+              </Avatar>
+            }
+            action={<MenuOfActionsOnEntity />}
+            title={<Link to={`/${post.category}/${post.id}`}>{post.title}</Link>}
+            subheader={<Link to={`/${post.category}/${post.id}`}>{fecha.format(post.timestamp, 'mediumDate')} - <em>{post.author}</em></Link>}
+          />
 
-        <CardContent>
-          <Typography component="p">
-            {post.body}
-          </Typography>
-        </CardContent>
+          <CardContent>
+            <Typography component="p">
+              {post.body}
+            </Typography>
+          </CardContent>
 
-        <CardActions className={classes.postActions} disableActionSpacing>
-          <VotingSystem voteScore={post.voteScore} />
-          <IconButton aria-label="Comments" component={Link} to={`/${post.category}/${post.id}`}>
-            <Badge badgeContent={post.commentCount} color="secondary">
-              <CommentIcon />
-            </Badge>
-          </IconButton>
-        </CardActions>
-      </Card>
-      :
-      <Card className={classes.card}>
-        <CardContent>
-          <Typography component="p">
-            No Post infos to show
+          <CardActions className={classes.postActions} disableActionSpacing>
+            <VotingSystem voteScore={post.voteScore} />
+            <IconButton aria-label="Comments" component={Link} to={`/${post.category}/${post.id}`}>
+              <Badge badgeContent={post.commentCount} color="secondary">
+                <CommentIcon />
+              </Badge>
+            </IconButton>
+          </CardActions>
+        </Card>
+        :
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography component="p">
+              No Post infos to show
           </Typography>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
     );
   }
 }
+
+Post.propTypes = {
+  classes: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(Post);
