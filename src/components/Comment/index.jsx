@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import fecha from 'fecha';
@@ -16,5 +17,9 @@ const Comment = ({ comment }) => (
     <MenuOfActionsOnEntity />
   </ListItem>
 );
+
+Comment.propTypes = {
+  comment: PropTypes.object.isRequired,
+};
 
 export default Comment;
