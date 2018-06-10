@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import * as ReadableAPI from '../../utils/ReadableAPI';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormGroup from '@material-ui/core/FormGroup';
 
-import Comment from '../Comment';
+import CommentsList from '../CommentsList';
 import Post from '../Post';
 
 const styles = (theme) => ({
@@ -83,18 +80,7 @@ class PostDetails extends Component {
 
           <Paper className={classes.commentsListBox}>
             { post &&
-              <List
-                subheader={<ListSubheader component="div">Comments: {post.commentCount}</ListSubheader>}
-              >
-                <Divider />
-                { Number(post.commentCount) ?
-                  <Comment />
-                  :
-                  <Typography component="p">
-                    No comments available
-                  </Typography>
-                }
-              </List>
+              <CommentsList post={post} />
             }
           </Paper>
       </section>
