@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import * as ReadableAPI from '../../utils/ReadableAPI';
 import Typography from '@material-ui/core/Typography';
@@ -44,7 +45,7 @@ class PostDetails extends Component {
     return (
       <section className={classes.content}>
         <div className={classes.toolbar} />
-        
+
         <Post post={post} />
 
         <Paper className={classes.addCommentForm}>
@@ -78,14 +79,19 @@ class PostDetails extends Component {
           </form>
         </Paper>
 
-          <Paper className={classes.commentsListBox}>
-            { post &&
-              <CommentsList post={post} />
-            }
-          </Paper>
+        <Paper className={classes.commentsListBox}>
+          {post &&
+            <CommentsList post={post} />
+          }
+        </Paper>
       </section>
     );
   }
 }
+
+PostDetails.propTypes = {
+  postId: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(PostDetails);
