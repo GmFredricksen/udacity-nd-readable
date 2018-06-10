@@ -145,7 +145,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  categories: PropTypes.object.isRequired,
+  categories: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   classes: PropTypes.object.isRequired,
   getCategories: PropTypes.func.isRequired,
 };

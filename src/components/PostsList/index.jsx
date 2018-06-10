@@ -61,11 +61,11 @@ class PostsList extends Component {
 }
 
 PostsList.propTypes = {
-  category: PropTypes.string.isRequired,
+  category: PropTypes.string,
   getPosts: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  posts: PropTypes.object.isRequired,
-}
+  posts: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+};
 
 function mapStateToProps({ posts }) {
   return {

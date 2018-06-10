@@ -37,7 +37,7 @@ class VotingSystem extends Component {
 
 VotingSystem.propTypes = {
   classes: PropTypes.object.isRequired,
-  voteScore: PropTypes.string.isRequired,
+  voteScore: PropTypes.number.isRequired,
 };
 
 export default withStyles(styles)(VotingSystem);
