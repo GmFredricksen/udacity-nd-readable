@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -32,7 +33,7 @@ class CategoriesDrawer extends Component {
             <ListItemText primary="All" />
           </ListItem>
           <Divider />
-          { categories.length ?
+          {categories.length ?
             categories.map((category) => (
               <ListItem key={category.name} divider button component={Link} to={`/${category.name}`}>
                 <ListItemText primary={category.name} />
@@ -76,5 +77,12 @@ class CategoriesDrawer extends Component {
     );
   }
 }
+
+CategoriesDrawer.propTypes = {
+  categories: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+  handleDrawerToggle: PropTypes.func.isRequired,
+  isMobileOpen: PropTypes.bool.isRequired,
+};
 
 export default withStyles(styles)(CategoriesDrawer);
