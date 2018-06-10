@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setCommentsForPost } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
@@ -47,6 +48,12 @@ class CommentsList extends Component {
     );
   }
 }
+
+CommentsList.propTypes = {
+  getCommentsOfPost: PropTypes.func.isRequired,
+  post: PropTypes.object.isRequired,
+  comments: PropTypes.object.isRequired,
+};
 
 function mapStateToProps({ comments }) {
   return {
