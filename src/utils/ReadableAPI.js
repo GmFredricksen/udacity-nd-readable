@@ -13,6 +13,14 @@ const headers = {
 }
 
 /**
+ * CATEGORY
+  */
+export const getCategories = () =>
+  fetch(`${api}/categories`, { headers })
+    .then(res => res.json())
+    .then(data => data.categories)
+
+/**
  * POST
   */
 export const getPost = (postId) =>
@@ -26,13 +34,13 @@ export const getPosts = (category = '') =>
     .then(data => data)
 
 /**
- * CATEGORY
+ * COMMENTS OF POST
   */
-export const getCategories = () =>
-  fetch(`${api}/categories`, { headers })
+export const getCommentsOfPost = (postId) =>
+  fetch(`${api}/posts/${postId}/comments`, { headers })
     .then(res => res.json())
-    .then(data => data.categories)
-    
+    .then(data => data)
+
 // export const update = (book, shelf) =>
 //   fetch(`${api}/books/${book.id}`, {
 //     method: 'PUT',
