@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -24,7 +25,7 @@ class VotingSystem extends Component {
           <ArrowVoteUp />
         </IconButton>
         <Typography variant='button' color='inherit' noWrap>
-          { voteScore }
+          {voteScore}
         </Typography>
         <IconButton aria-label="Vote-Down">
           <ArrowVoteDown />
@@ -33,5 +34,10 @@ class VotingSystem extends Component {
     );
   }
 }
+
+VotingSystem.propTypes = {
+  classes: PropTypes.object.isRequired,
+  voteScore: PropTypes.string.isRequired,
+};
 
 export default withStyles(styles)(VotingSystem);
