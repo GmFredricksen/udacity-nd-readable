@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setCategories } from '../../actions';
 import * as ReadableAPI from '../../utils/ReadableAPI';
@@ -141,6 +142,12 @@ class App extends Component {
       </Router>
     );
   }
+}
+
+App.propTypes = {
+  categories: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+  getCategories: PropTypes.func.isRequired,
 };
 
 function mapStateToProps({ categories }) {
