@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setPosts } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
@@ -23,14 +24,14 @@ const styles = (theme) => ({
 
 class PostsList extends Component {
   componentDidMount() {
-    if ( this.props.category ) {
+    if (this.props.category) {
       this.props.getPosts(this.props.category);
     } else {
       this.props.getPosts();
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.category) {
       this.props.getPosts(nextProps.category);
     }
@@ -57,6 +58,13 @@ class PostsList extends Component {
       </main>
     );
   }
+}
+
+PostsList.propTypes = {
+  category: PropTypes.string.isRequired,
+  getPosts: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  posts: PropTypes.object.isRequired,
 }
 
 function mapStateToProps({ posts }) {
