@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 
 import {
   SET_CATEGORIES,
+  SET_COMMENTS_FOR_POST,
   SET_POSTS,
 } from '../actions';
 
@@ -27,7 +28,22 @@ function posts (state = {}, action) {
   }
 }
 
+function comments (state = {}, action) {
+  switch (action.type) {
+    case SET_COMMENTS_FOR_POST:
+      const { comments, postId } = action;
+
+      return {
+        ...state,
+        [postId]: comments,
+      };
+    default :
+      return state
+  }
+}
+
 export default combineReducers({
   categories,
+  comments,
   posts,
 })
