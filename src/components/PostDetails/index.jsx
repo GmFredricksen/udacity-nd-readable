@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import * as ReadableAPI from '../../utils/ReadableAPI';
@@ -8,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormGroup from '@material-ui/core/FormGroup';
 
+import { setPost } from '../../actions';
 import CommentsList from '../CommentsList';
 import Post from '../Post';
 
@@ -28,25 +30,22 @@ const styles = (theme) => ({
 });
 
 class PostDetails extends Component {
-  state = {
-    post: null,
-  }
   componentDidMount() {
     const postId = this.props.postId;
 
-    ReadableAPI.getPost(postId)
-      .then((post) => this.setState({ post }));
+    this.props.getPost(postId);
   }
 
   render() {
-    const { classes } = this.props;
-    const { post } = this.state;
+    const { classes, post } = this.props;
 
     return (
       <section className={classes.content}>
         <div className={classes.toolbar} />
 
-        <Post post={post} />
+        {post &&
+          <Post post={post} />
+        }
 
         <Paper className={classes.addCommentForm}>
           <Typography variant="headline" component="h5">
@@ -90,8 +89,32 @@ class PostDetails extends Component {
 }
 
 PostDetails.propTypes = {
-  postId: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
+  getPost: PropTypes.func.isRequired,
+  postId: PropTypes.string.isRequired,
+  post: PropTypes.object,
 };
 
-export default withStyles(styles)(PostDetails);
+function mapStateToProps({ posts }, ownProps) {
+  if (posts.length) {
+    return {
+      post: posts.find((post) => post.id === ownProps.postId)
+    };
+  }
+
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getPost: (postId) => {
+      ReadableAPI.getPost(postId)
+        .then((post) => dispatch(setPost(post)));
+    },
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withStyles(styles)(PostDetails));

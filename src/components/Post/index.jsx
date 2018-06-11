@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
@@ -14,6 +15,8 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import fecha from 'fecha';
 
+import * as ReadableAPI from '../../utils/ReadableAPI';
+import { updatePostVote } from '../../actions';
 import MenuOfActionsOnEntity from '../MenuOfActionsOnEntity';
 import VotingSystem from '../VotingSystem';
 
@@ -32,7 +35,7 @@ const styles = (theme) => ({
 
 class Post extends Component {
   render() {
-    const { classes, post } = this.props;
+    const { classes, post, updatePostVote } = this.props;
 
     return (
       post ?
@@ -55,7 +58,10 @@ class Post extends Component {
           </CardContent>
 
           <CardActions className={classes.postActions} disableActionSpacing>
-            <VotingSystem voteScore={post.voteScore} />
+            <VotingSystem
+              updateVote={updatePostVote}
+              voteScore={post.voteScore}
+            />
             <IconButton aria-label="Comments" component={Link} to={`/${post.category}/${post.id}`}>
               <Badge badgeContent={post.commentCount} color="secondary">
                 <CommentIcon />
@@ -82,6 +88,19 @@ Post.defaultProps = {
 Post.propTypes = {
   classes: PropTypes.object.isRequired,
   post: PropTypes.object,
+  updatePostVote: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(Post);
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    updatePostVote: (voteScore) => {
+      ReadableAPI.updatePostVote(ownProps.post.id, voteScore)
+        .then((post) => dispatch(updatePostVote(post.id, post.voteScore)));
+    },
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(withStyles(styles)(Post));

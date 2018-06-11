@@ -17,17 +17,17 @@ const styles = (theme) => ({
 
 class VotingSystem extends Component {
   render() {
-    const { classes, voteScore } = this.props;
+    const { classes, updateVote, voteScore } = this.props;
 
     return (
       <div className={classes.voteControls}>
-        <IconButton aria-label="Vote-Up">
+        <IconButton aria-label="Vote-Up" onClick={() => updateVote(1)}>
           <ArrowVoteUp />
         </IconButton>
         <Typography variant='button' color='inherit' noWrap>
           {voteScore}
         </Typography>
-        <IconButton aria-label="Vote-Down">
+        <IconButton aria-label="Vote-Down" onClick={() => updateVote(-1)}>
           <ArrowVoteDown />
         </IconButton>
       </div>
@@ -37,6 +37,7 @@ class VotingSystem extends Component {
 
 VotingSystem.propTypes = {
   classes: PropTypes.object.isRequired,
+  updateVote: PropTypes.func,
   voteScore: PropTypes.number.isRequired,
 };
 
