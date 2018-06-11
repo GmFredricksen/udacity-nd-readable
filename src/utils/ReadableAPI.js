@@ -33,6 +33,20 @@ export const getPosts = (category = '') =>
     .then(res => res.json())
     .then(data => data)
 
+export const updatePostVote = (postId, vote) =>
+  fetch(`${api}/posts/${postId}`,
+    {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'option': vote === 1 ? 'upVote' : 'downVote'
+      })
+    })
+    .then(res => res.json())
+    .then(data => data)
 /**
  * COMMENTS OF POST
   */
