@@ -3,25 +3,26 @@
 import { combineReducers } from 'redux';
 
 import {
-  UPDATE_POST_VOTE,
   SET_CATEGORIES,
   SET_COMMENTS_FOR_POST,
   SET_POSTS,
   SET_POST,
+  UPDATE_COMMENT_VOTE,
+  UPDATE_POST_VOTE,
 } from '../actions';
 
-function categories (state = [], action) {
+function categories(state = [], action) {
   switch (action.type) {
     case SET_CATEGORIES:
       const { categories } = action;
 
       return categories;
-    default :
+    default:
       return state
   }
 }
 
-function posts (state = [], action) {
+function posts(state = [], action) {
   switch (action.type) {
     case SET_POSTS:
       const { posts } = action;
@@ -30,7 +31,7 @@ function posts (state = [], action) {
     case SET_POST:
       const { post } = action;
 
-      return [ post ];
+      return [post];
     case UPDATE_POST_VOTE:
       const { postId, voteScore } = action;
 
@@ -38,12 +39,12 @@ function posts (state = [], action) {
         return post.id === postId ?
           { ...post, voteScore } : post
       });
-    default :
+    default:
       return state
   }
 }
 
-function comments (state = {}, action) {
+function comments(state = {}, action) {
   switch (action.type) {
     case SET_COMMENTS_FOR_POST:
       const { comments, postId } = action;
@@ -52,7 +53,18 @@ function comments (state = {}, action) {
         ...state,
         [postId]: comments,
       };
-    default :
+    case UPDATE_COMMENT_VOTE:
+      const { commentId, parentId, voteScore } = action;
+      const commentsOfPost = state[parentId];
+
+      return {
+        ...state,
+        [parentId]: commentsOfPost.map((comment) => {
+            return comment.id === commentId ?
+              { ...comment, voteScore } : comment
+          })
+      }
+    default:
       return state
   }
 }
