@@ -55,6 +55,21 @@ export const getCommentsOfPost = (postId) =>
     .then(res => res.json())
     .then(data => data)
 
+export const updateCommentVote = (commentId, vote) =>
+  fetch(`${api}/comments/${commentId}`,
+    {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'option': vote === 1 ? 'upVote' : 'downVote'
+      })
+    })
+    .then(res => res.json())
+    .then(data => data)
+
 // export const update = (book, shelf) =>
 //   fetch(`${api}/books/${book.id}`, {
 //     method: 'PUT',
