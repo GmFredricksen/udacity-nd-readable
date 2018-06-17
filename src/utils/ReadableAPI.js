@@ -1,3 +1,4 @@
+import uuidv4 from 'uuid/v4';
 
 const api = "http://localhost:3001"
 
@@ -23,6 +24,24 @@ export const getCategories = () =>
 /**
  * POST
   */
+export const addPost = (post) =>
+  fetch(`${api}/posts/`,
+    {
+      method: 'POST',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...post,
+        timestamp: Date.now(),
+        id: uuidv4(),
+      }),
+    }
+  )
+    .then(res => res.json())
+    .then(data => data)
+
 export const getPost = (postId) =>
   fetch(`${api}/posts/${postId}`, { headers })
     .then(res => res.json())
