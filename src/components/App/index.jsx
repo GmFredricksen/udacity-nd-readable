@@ -35,6 +35,10 @@ const styles = (theme) => ({
       width: `calc(100% - ${drawerWidth}px)`,
     },
   },
+  link: {
+    textDecoration: 'none',
+    color: 'inherit',
+  },
   navBarTitle: {
     flex: 1,
   },
@@ -98,7 +102,7 @@ class App extends Component {
                 <MenuIcon />
               </IconButton>
               <Typography variant='title' color='inherit' className={classes.navBarTitle} noWrap>
-                GM - Readable
+                <Link className={classes.link} to="/">GM - Readable</Link>
               </Typography>
               <IconButton
                 color='inherit'
