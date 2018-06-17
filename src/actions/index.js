@@ -1,3 +1,4 @@
+export const ADD_POST = 'ADD_POST';
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_COMMENTS_FOR_POST = 'SET_COMMENTS_FOR_POST';
 export const SET_POSTS = 'SET_POSTS';
@@ -9,6 +10,13 @@ export function setCategories (categories) {
   return {
     type: SET_CATEGORIES,
     categories,
+  }
+}
+
+export function addPost (postToBeAdded) {
+  return {
+    type: ADD_POST,
+    postToBeAdded,
   }
 }
 
