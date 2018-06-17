@@ -3,6 +3,7 @@
 import { combineReducers } from 'redux';
 
 import {
+  ADD_POST,
   SET_CATEGORIES,
   SET_COMMENTS_FOR_POST,
   SET_POSTS,
@@ -24,6 +25,13 @@ function categories(state = [], action) {
 
 function posts(state = [], action) {
   switch (action.type) {
+    case ADD_POST:
+      const { postToBeAdded } = action;
+
+      return [
+        ...state,
+        postToBeAdded,
+      ];
     case SET_POSTS:
       const { posts } = action;
 
