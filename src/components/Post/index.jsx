@@ -74,7 +74,7 @@ class Post extends Component {
           <CardContent>
             <Typography component="p">
               No Post infos to show
-          </Typography>
+            </Typography>
           </CardContent>
         </Card>
     );
