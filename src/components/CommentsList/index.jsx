@@ -34,7 +34,7 @@ class CommentsList extends Component {
 
     return (
       <List
-        subheader={<ListSubheader component="div">Comments: {post.commentCount}</ListSubheader>}
+        subheader={<ListSubheader component="div">Comments: {comments[post.id] ? comments[post.id].length : 0}</ListSubheader>}
       >
         <Divider />
         {(comments[post.id] && comments[post.id].length) ?
