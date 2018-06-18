@@ -1,3 +1,4 @@
+export const ADD_COMMENT = 'ADD_COMMENT';
 export const ADD_POST = 'ADD_POST';
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_COMMENTS_FOR_POST = 'SET_COMMENTS_FOR_POST';
@@ -39,6 +40,13 @@ export function updatePostVote (postId, voteScore) {
     type: UPDATE_POST_VOTE,
     postId,
     voteScore,
+  }
+}
+
+export function addComment (commentToBeAdded) {
+  return {
+    type: ADD_COMMENT,
+    commentToBeAdded,
   }
 }
 
