@@ -3,21 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import * as ReadableAPI from '../../utils/ReadableAPI';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import FormGroup from '@material-ui/core/FormGroup';
 
 import { setPost } from '../../actions';
+import CommentForm from '../CommentForm';
 import CommentsList from '../CommentsList';
 import Post from '../Post';
 
 const styles = (theme) => ({
-  addCommentForm: {
-    padding: theme.spacing.unit * 4,
-    marginTop: theme.spacing.unit * 2,
-  },
   commentsListBox: {
     marginTop: theme.spacing.unit * 2,
   },
@@ -37,7 +30,7 @@ class PostDetails extends Component {
   }
 
   render() {
-    const { classes, post } = this.props;
+    const { classes, post, postId } = this.props;
 
     return (
       <section className={classes.content}>
@@ -47,36 +40,7 @@ class PostDetails extends Component {
           <Post post={post} />
         }
 
-        <Paper className={classes.addCommentForm}>
-          <Typography variant="headline" component="h5">
-            Add new Comment
-          </Typography>
-
-          <form className={classes.container} autoComplete="off">
-            <FormGroup>
-              <TextField
-                id="authorName"
-                label="Author"
-                className={classes.textField}
-                margin="normal"
-              />
-            </FormGroup>
-            <FormGroup>
-              <TextField
-                id="commentMessage"
-                label="Message"
-                className={classes.textField}
-                margin="normal"
-                multiline
-              />
-            </FormGroup>
-            <FormGroup>
-              <Button className={classes.button} color="primary">
-                Add Comment
-              </Button>
-            </FormGroup>
-          </form>
-        </Paper>
+        <CommentForm parentId={postId} />
 
         <Paper className={classes.commentsListBox}>
           {post &&
