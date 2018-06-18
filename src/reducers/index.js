@@ -3,6 +3,7 @@
 import { combineReducers } from 'redux';
 
 import {
+  ADD_COMMENT,
   ADD_POST,
   SET_CATEGORIES,
   SET_COMMENTS_FOR_POST,
@@ -53,7 +54,20 @@ function posts(state = [], action) {
 }
 
 function comments(state = {}, action) {
+  let commentsOfPost;
+
   switch (action.type) {
+    case ADD_COMMENT:
+      const { commentToBeAdded } = action;
+      commentsOfPost = state[commentToBeAdded.parentId];
+
+      return {
+        ...state,
+        [commentToBeAdded.parentId]: [
+          ...commentsOfPost,
+          commentToBeAdded
+        ]
+      };
     case SET_COMMENTS_FOR_POST:
       const { comments, postId } = action;
 
@@ -63,14 +77,14 @@ function comments(state = {}, action) {
       };
     case UPDATE_COMMENT_VOTE:
       const { commentId, parentId, voteScore } = action;
-      const commentsOfPost = state[parentId];
+      commentsOfPost = state[parentId];
 
       return {
         ...state,
         [parentId]: commentsOfPost.map((comment) => {
-            return comment.id === commentId ?
-              { ...comment, voteScore } : comment
-          })
+          return comment.id === commentId ?
+            { ...comment, voteScore } : comment
+        })
       }
     default:
       return state
