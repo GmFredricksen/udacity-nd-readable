@@ -18,7 +18,7 @@ const Comment = ({ comment, updateCommentVote }) => (
     />
     <ListItemText
       primary={comment.body}
-      secondary={`${comment.author} - ${fecha.format(comment.timestamp, 'mediumDate')}`}
+      secondary={`Author: ${comment.author} - ${fecha.format(comment.timestamp, 'mediumDate')}`}
     />
     <MenuOfActionsOnEntity />
   </ListItem>
