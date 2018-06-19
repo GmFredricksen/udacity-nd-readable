@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setCategories } from '../../actions';
 import * as ReadableAPI from '../../utils/ReadableAPI';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -127,16 +127,17 @@ class App extends Component {
             <PostsList />
           )} />
 
-          <Route exact path="/:category" render={({ match }) => (
-            <PostsList category={match.params.category} />
-          )} />
-
-          <Route exact path="/create" render={() => (
-            <PostModal
-              isCreatePostModalOpen={isCreatePostModalOpen}
-              handleCloseCreatePostModal={this.handleCloseCreatePostModal}
-            />
-          )} />
+          <Switch>
+            <Route exact path="/create" render={() => (
+              <PostModal
+                isCreatePostModalOpen={isCreatePostModalOpen}
+                handleCloseCreatePostModal={this.handleCloseCreatePostModal}
+              />
+            )} />
+            <Route exact path="/:category" render={({ match }) => (
+              <PostsList category={match.params.category} />
+            )} />
+          </Switch>
 
           <Route exact path="/:category/:post_id" render={({ match }) => (
             <PostDetails postId={match.params.post_id} />
