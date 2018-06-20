@@ -32,7 +32,7 @@ class PostsList extends Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.category) {
+    if (this.props.category !== nextProps.category) {
       this.props.getPosts(nextProps.category);
     }
   }
