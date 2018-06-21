@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import CategoriesDrawer from '../CategoriesDrawer';
 import PostsList from '../PostsList';
 import PostDetails from '../PostDetails';
-import PostModal from '../PostModal';
+import PostForm from '../PostForm';
 
 import './App.css';
 
@@ -66,7 +66,6 @@ const styles = (theme) => ({
 class App extends Component {
   state = {
     isMobileOpen: false,
-    isCreatePostModalOpen: true,
   };
 
   componentDidMount() {
@@ -77,17 +76,9 @@ class App extends Component {
     this.setState({ isMobileOpen: !this.state.isMobileOpen });
   }
 
-  // open/close create post modal
-  handleOpenCreatePostModal = () => {
-    this.setState({ isCreatePostModalOpen: true });
-  };
-  handleCloseCreatePostModal = () => {
-    this.setState({ isCreatePostModalOpen: false });
-  };
-
   render() {
     const { categories, classes } = this.props;
-    const { isCreatePostModalOpen, isMobileOpen } = this.state;
+    const { isMobileOpen } = this.state;
 
     return (
       <Router>
@@ -109,8 +100,7 @@ class App extends Component {
                 aria-label='add post'
                 className={classes.navIconAddPost}
                 component={Link}
-                to='/create'
-              // onClick={this.handleOpenCreatePostModal}
+                to='/posts/create'
               >
                 <AddPostIcon />
               </IconButton>
@@ -128,21 +118,15 @@ class App extends Component {
           )} />
 
           <Switch>
-            <Route exact path="/create" render={() => (
-              <PostModal
-                isCreatePostModalOpen={isCreatePostModalOpen}
-                handleCloseCreatePostModal={this.handleCloseCreatePostModal}
-              />
-            )} />
+            <Route path="/posts/create" component={PostForm} />
+
             <Route exact path="/:category" render={({ match }) => (
               <PostsList category={match.params.category} />
             )} />
+            <Route exact path="/:category/:post_id" render={({ match }) => (
+              <PostDetails postId={match.params.post_id} />
+            )} />
           </Switch>
-
-          <Route exact path="/:category/:post_id" render={({ match }) => (
-            <PostDetails postId={match.params.post_id} />
-          )} />
-
         </div>
       </Router>
     );
