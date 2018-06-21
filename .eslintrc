@@ -6,7 +6,8 @@
   ],
   "globals": {
     "fetch": true,
-    "localStorage": true
+    "localStorage": true,
+    "window": true
   },
   "parser": "babel-eslint",
   "parserOptions": {
