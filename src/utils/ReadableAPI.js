@@ -67,6 +67,15 @@ export const updatePostVote = (postId, vote) =>
     .then(res => res.json())
     .then(data => data)
 
+export const deletePost = (postId) =>
+  fetch(`${api}/posts/${postId}`,
+    {
+      method: 'DELETE',
+      headers,
+    })
+    .then(res => res.json())
+    .then(data => data)
+
 /**
  * COMMENTS OF POST
   */
@@ -108,6 +117,14 @@ export const updateCommentVote = (commentId, vote) =>
     .then(res => res.json())
     .then(data => data)
 
+export const deleteComment = (commentId) =>
+  fetch(`${api}/comments/${commentId}`,
+    {
+      method: 'DELETE',
+      headers,
+    })
+    .then(res => res.json())
+    .then(data => data)
 // export const update = (book, shelf) =>
 //   fetch(`${api}/books/${book.id}`, {
 //     method: 'PUT',
