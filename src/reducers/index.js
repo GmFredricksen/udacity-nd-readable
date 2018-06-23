@@ -5,6 +5,8 @@ import { combineReducers } from 'redux';
 import {
   ADD_COMMENT,
   ADD_POST,
+  DELETE_COMMENT,
+  DELETE_POST,
   SET_CATEGORIES,
   SET_COMMENTS_FOR_POST,
   SET_POSTS,
@@ -48,6 +50,10 @@ function posts(state = [], action) {
         return post.id === postId ?
           { ...post, voteScore } : post
       });
+    case DELETE_POST:
+      const { postToBeDeleted } = action;
+
+      return state.filter((post) => post.id !== postToBeDeleted.id);
     default:
       return state
   }
@@ -86,6 +92,14 @@ function comments(state = {}, action) {
             { ...comment, voteScore } : comment
         })
       }
+    case DELETE_COMMENT:
+      const { commentToBeDeleted } = action;
+      commentsOfPost = state[commentToBeDeleted.parentId];
+
+      return {
+        ...state,
+        [commentToBeDeleted.parentId]: commentsOfPost.filter((comment) => comment.id !== commentToBeDeleted.id),
+      };
     default:
       return state
   }
