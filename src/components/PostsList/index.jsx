@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setPosts } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
-import * as ReadableAPI from '../../utils/ReadableAPI';
 import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
+import * as ReadableAPI from '../../utils/ReadableAPI';
 import Post from '../Post';
 import SortingBar from '../SortingBar';
 
@@ -52,7 +55,17 @@ class PostsList extends Component {
               <Grid key={post.id} item xs={12}>
                 <Post post={post} />
               </Grid>
-            )) : ''
+            ))
+            : 
+            <Grid item xs={12}>
+              <Card className={classes.card}>
+                <CardContent>
+                  <Typography component="p">
+                    No Posts to show
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
           }
         </Grid>
       </main>
