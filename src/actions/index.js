@@ -1,5 +1,7 @@
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const ADD_POST = 'ADD_POST';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const DELETE_POST = 'DELETE_POST';
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_COMMENTS_FOR_POST = 'SET_COMMENTS_FOR_POST';
 export const SET_POSTS = 'SET_POSTS';
@@ -50,6 +52,13 @@ export function addComment (commentToBeAdded) {
   }
 }
 
+export function deletePost (postToBeDeleted) {
+  return {
+    type: DELETE_POST,
+    postToBeDeleted,
+  }
+}
+
 export function setCommentsForPost (comments, postId) {
   return {
     type: SET_COMMENTS_FOR_POST,
@@ -64,5 +73,12 @@ export function updateCommentVote (commentId, parentId, voteScore) {
     commentId,
     parentId,
     voteScore,
+  }
+}
+
+export function deleteComment (commentToBeDeleted) {
+  return {
+    type: DELETE_COMMENT,
+    commentToBeDeleted,
   }
 }
