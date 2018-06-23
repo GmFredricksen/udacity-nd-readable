@@ -52,6 +52,19 @@ export const getPosts = (category = '') =>
     .then(res => res.json())
     .then(data => data)
 
+export const updatePost = (postContent, postId) =>
+  fetch(`${api}/posts/${postId}`,
+    {
+      method: 'PUT',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...postContent }),
+    })
+    .then(res => res.json())
+    .then(data => data)
+
 export const updatePostVote = (postId, vote) =>
   fetch(`${api}/posts/${postId}`,
     {
@@ -125,15 +138,6 @@ export const deleteComment = (commentId) =>
     })
     .then(res => res.json())
     .then(data => data)
-// export const update = (book, shelf) =>
-//   fetch(`${api}/books/${book.id}`, {
-//     method: 'PUT',
-//     headers: {
-//       ...headers,
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({ shelf })
-//   }).then(res => res.json())
 
 // export const search = (query) =>
 //   fetch(`${api}/search`, {
