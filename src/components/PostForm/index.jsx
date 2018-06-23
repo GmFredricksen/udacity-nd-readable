@@ -14,10 +14,9 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { addPost } from '../../actions';
+import { addPost, setPost } from '../../actions';
 import * as ReadableAPI from '../../utils/ReadableAPI';
 
-// const modalWidth = 500;
 const styles = (theme) => ({
   content: {
     flexGrow: 1,
@@ -29,11 +28,35 @@ const styles = (theme) => ({
 
 class PostForm extends Component {
   state = {
+    isPostToBeEdited: false,
     postToBeSubmitted: {
       author: '',
       body: '',
       category: '',
       title: '',
+    }
+  }
+
+  componentDidMount() {
+    const postId = this.props.postId;
+
+    if (postId) {
+      this.setState({ isPostToBeEdited: true });
+      this.props.getPost(postId);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { postToBeEdited } = this.props;
+    if (postToBeEdited !== prevProps.postToBeEdited) {
+      this.setState({
+        postToBeSubmitted: {
+          author: postToBeEdited.author,
+          body: postToBeEdited.body,
+          category: postToBeEdited.category,
+          title: postToBeEdited.title,
+        }
+      });
     }
   }
 
@@ -50,16 +73,27 @@ class PostForm extends Component {
     });
   }
 
+  assignSelectedPostDataToForm = () => {
+    this.setState({
+      postToBeSubmitted: {
+        author: '',
+        body: '',
+        category: '',
+        title: '',
+      }
+    });
+  }
+
   render() {
     const { submitPost, categories, classes } = this.props;
-    const { postToBeSubmitted } = this.state;
+    let { isPostToBeEdited, postToBeSubmitted } = this.state;
 
     return (
       <section className={classes.content}>
         <div className={classes.toolbar} />
         <Card className={classes.card}>
 
-          <CardHeader title="Add new Post" />
+          <CardHeader title={isPostToBeEdited ? 'Edit Post': 'Add new Post'} />
 
           <CardContent>
             <form className={classes.container} autoComplete="off" onSubmit={(event) => submitPost(event, postToBeSubmitted)}>
@@ -125,7 +159,7 @@ class PostForm extends Component {
                   type="submit"
                   disabled={!this.formIsValid(postToBeSubmitted)}
                 >
-                  Add
+                  {isPostToBeEdited ? 'Update' : 'Add'}
                 </Button>
               </FormGroup>
             </form>
@@ -139,16 +173,34 @@ class PostForm extends Component {
 PostForm.propTypes = {
   categories: PropTypes.array.isRequired,
   classes: PropTypes.object.isRequired,
+  getPost: PropTypes.func.isRequired,
+  postId: PropTypes.string,
+  postToBeEdited: PropTypes.object,
   submitPost: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ categories }) => ({
+const mapStateToProps = ({ categories, posts }) => ({
   categories,
+  postToBeEdited: posts[0] || null,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  getPost: (postId) => {
+    ReadableAPI.getPost(postId)
+      .then((post) => dispatch(setPost(post)));
+  },
+
   submitPost: (formSubmitEvent, postToBeSubmitted) => {
     formSubmitEvent.preventDefault();
+    const isPostEdit = !!ownProps.postId;
+
+    if (isPostEdit) {
+      ReadableAPI.updatePost(postToBeSubmitted, ownProps.postId)
+        .then((post) => {
+          window.location = `/${post.category}/${post.id}`;
+        });
+      return;
+    }
 
     ReadableAPI.addPost(postToBeSubmitted)
       .then((post) => {

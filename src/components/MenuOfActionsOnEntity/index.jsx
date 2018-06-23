@@ -31,7 +31,7 @@ class MenuOfActionsOnEntity extends Component {
 
   render() {
     const { anchorElement } = this.state;
-    const { classes, deleteEntity, entityToBeAffected } = this.props;
+    const { classes, deleteEntity, editEntity, entityToBeAffected } = this.props;
 
     return (
       <IconButton onClick={this.handleOpenEditDeleteMenu}>
@@ -47,6 +47,7 @@ class MenuOfActionsOnEntity extends Component {
           >
             <MenuItem className={classes.menuItem}
               button={true}
+              onClick={() => editEntity(entityToBeAffected)}
             >
               <ListItemIcon className={classes.icon}>
                 <EditIcon />
@@ -71,11 +72,22 @@ class MenuOfActionsOnEntity extends Component {
 
 MenuOfActionsOnEntity.propTypes = {
   classes: PropTypes.object.isRequired,
+  editEntity: PropTypes.func.isRequired,
   deleteEntity: PropTypes.func.isRequired,
   entityToBeAffected: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  editEntity: (entityToBeAffected) => {
+    switch (typeOfEntityToAffect(entityToBeAffected)) {
+      case 'post':
+        window.location = `/posts/${entityToBeAffected.id}/edit`;
+        break;
+      default:
+        return;
+    }
+  },
+
   deleteEntity: (entityToBeAffected) => {
     switch (typeOfEntityToAffect(entityToBeAffected)) {
       case 'post':

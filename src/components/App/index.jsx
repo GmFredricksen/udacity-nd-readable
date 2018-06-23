@@ -119,6 +119,9 @@ class App extends Component {
 
           <Switch>
             <Route path="/posts/create" component={PostForm} />
+            <Route path="/posts/:post_id/edit" render={({match}) => (
+              <PostForm postId={match.params.post_id} />
+            )} />
 
             <Route exact path="/:category" render={({ match }) => (
               <PostsList category={match.params.category} />
