@@ -20,7 +20,7 @@ const Comment = ({ comment, updateCommentVote }) => (
       primary={comment.body}
       secondary={`Author: ${comment.author} - ${fecha.format(comment.timestamp, 'mediumDate')}`}
     />
-    <MenuOfActionsOnEntity />
+    <MenuOfActionsOnEntity entityToBeAffected={comment} />
   </ListItem>
 );
 

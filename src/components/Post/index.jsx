@@ -46,7 +46,7 @@ class Post extends Component {
                 <FaceIcon />
               </Avatar>
             }
-            action={<MenuOfActionsOnEntity />}
+            action={<MenuOfActionsOnEntity entityToBeAffected={post} />}
             title={<Link to={`/${post.category}/${post.id}`}>{post.title}</Link>}
             subheader={<Link to={`/${post.category}/${post.id}`}>{fecha.format(post.timestamp, 'mediumDate')} - <em>{post.author}</em></Link>}
           />
