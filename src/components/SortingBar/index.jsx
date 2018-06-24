@@ -34,8 +34,8 @@ class SortingBar extends Component {
           textColor="primary"
           centered
         >
-          <Tab label="Popular" />
           <Tab label="Recent" />
+          <Tab label="Popular" />
         </Tabs>
       </Paper>
     );
