@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+
+import { sortPosts } from '../../actions';
 
 const styles = (theme) => ({
   sortingPostsTabs: {
@@ -19,6 +22,7 @@ class SortingBar extends Component {
 
   handleChangeSortingMethod = (event, value) => {
     this.setState({ selectedSortingMethod: value });
+    this.props.sortItems(value ? 'popular' : 'recent');
   };
 
   render() {
@@ -44,6 +48,14 @@ class SortingBar extends Component {
 
 SortingBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  sortItems: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(SortingBar);
+const mapDispatchToProps = (dispatch) => ({
+  sortItems: (sortingRule) => dispatch(sortPosts(sortingRule)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(withStyles(styles)(SortingBar));
