@@ -7,6 +7,7 @@ export const SET_COMMENTS_FOR_POST = 'SET_COMMENTS_FOR_POST';
 export const SET_POSTS = 'SET_POSTS';
 export const SET_POST = 'SET_POST';
 export const UPDATE_POST_VOTE = 'UPDATE_POST_VOTE';
+export const UPDATE_COMMENT = 'UPDATE_COMMENT';
 export const UPDATE_COMMENT_VOTE = 'UPDATE_COMMENT_VOTE';
 
 export function setCategories (categories) {
@@ -64,6 +65,13 @@ export function setCommentsForPost (comments, postId) {
     type: SET_COMMENTS_FOR_POST,
     comments,
     postId,
+  }
+}
+
+export function updateComment (comment) {
+  return {
+    type: UPDATE_COMMENT,
+    comment,
   }
 }
 
