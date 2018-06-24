@@ -11,6 +11,7 @@ import {
   SET_COMMENTS_FOR_POST,
   SET_POSTS,
   SET_POST,
+  SORT_POSTS,
   UPDATE_COMMENT,
   UPDATE_COMMENT_VOTE,
   UPDATE_POST_VOTE,
@@ -40,6 +41,25 @@ function posts(state = [], action) {
       const { posts } = action;
 
       return posts;
+    case SORT_POSTS:
+      const { sortingRule } = action;
+
+      switch(sortingRule) {
+        case 'recent':
+          state.sort((post1, post2) => {
+            return Number(post2.timestamp) - Number(post1.timestamp);
+          });
+
+          return [...state];
+        case 'popular':
+          state.sort((post1, post2) => {
+            return Number(post2.voteScore) - Number(post1.voteScore);
+          });
+
+          return [...state];
+        default:
+          return state;
+      }
     case SET_POST:
       const { post } = action;
 
