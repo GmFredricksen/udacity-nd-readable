@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { setPosts } from '../../actions';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
+import { setPosts, sortPosts } from '../../actions';
 import * as ReadableAPI from '../../utils/ReadableAPI';
 import Post from '../Post';
 import SortingBar from '../SortingBar';
@@ -90,7 +90,10 @@ function mapDispatchToProps(dispatch) {
   return {
     getPosts: (category) => {
       ReadableAPI.getPosts(category)
-        .then((posts) => dispatch(setPosts(posts)));
+        .then((posts) => {
+          dispatch(setPosts(posts));
+          dispatch(sortPosts('recent'));
+        });
     },
   }
 }
