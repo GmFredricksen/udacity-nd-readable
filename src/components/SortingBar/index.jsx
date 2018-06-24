@@ -6,7 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import { sortPosts } from '../../actions';
+import { sortPosts, updatePostsSortingMethod } from '../../actions';
 
 const styles = (theme) => ({
   sortingPostsTabs: {
@@ -16,23 +16,17 @@ const styles = (theme) => ({
 });
 
 class SortingBar extends Component {
-  state = {
-    selectedSortingMethod: 0,
-  }
-
   handleChangeSortingMethod = (event, value) => {
-    this.setState({ selectedSortingMethod: value });
     this.props.sortItems(value ? 'popular' : 'recent');
   };
 
   render() {
-    const { selectedSortingMethod } = this.state;
-    const { classes } = this.props;
+    const { classes, selectedSortingMethod } = this.props;
 
     return (
       <Paper className={classes.sortingPostsTabs}>
         <Tabs
-          value={selectedSortingMethod}
+          value={selectedSortingMethod === 'recent' ? 0 : 1}
           onChange={this.handleChangeSortingMethod}
           indicatorColor="primary"
           textColor="primary"
@@ -48,14 +42,22 @@ class SortingBar extends Component {
 
 SortingBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  selectedSortingMethod: PropTypes.string.isRequired,
   sortItems: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = ({ sorting }) => ({
+  selectedSortingMethod: sorting.selectedSortingMethod,
+})
+
 const mapDispatchToProps = (dispatch) => ({
-  sortItems: (sortingRule) => dispatch(sortPosts(sortingRule)),
+  sortItems: (sortingRule) => {
+    dispatch(updatePostsSortingMethod(sortingRule))
+    dispatch(sortPosts(sortingRule))
+  },
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(withStyles(styles)(SortingBar));

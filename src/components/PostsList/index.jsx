@@ -28,15 +28,15 @@ const styles = (theme) => ({
 class PostsList extends Component {
   componentDidMount() {
     if (this.props.category) {
-      this.props.getPosts(this.props.category);
+      this.props.getPosts(this.props.category, this.props.selectedSortingMethod);
     } else {
-      this.props.getPosts();
+      this.props.getPosts('', this.props.selectedSortingMethod);
     }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.category !== nextProps.category) {
-      this.props.getPosts(nextProps.category);
+      this.props.getPosts(nextProps.category, this.props.selectedSortingMethod);
     }
   }
 
@@ -56,7 +56,7 @@ class PostsList extends Component {
                 <Post post={post} />
               </Grid>
             ))
-            : 
+            :
             <Grid item xs={12}>
               <Card className={classes.card}>
                 <CardContent>
@@ -78,21 +78,21 @@ PostsList.propTypes = {
   getPosts: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   posts: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  selectedSortingMethod: PropTypes.string.isRequired,
 };
 
-function mapStateToProps({ posts }) {
-  return {
-    posts,
-  }
-}
+const mapStateToProps = ({ posts, sorting }) => ({
+  posts,
+  selectedSortingMethod: sorting.selectedSortingMethod,
+})
 
 function mapDispatchToProps(dispatch) {
   return {
-    getPosts: (category) => {
+    getPosts: (category, sortingMethod) => {
       ReadableAPI.getPosts(category)
         .then((posts) => {
           dispatch(setPosts(posts));
-          dispatch(sortPosts('recent'));
+          dispatch(sortPosts(sortingMethod));
         });
     },
   }

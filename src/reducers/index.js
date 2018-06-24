@@ -15,6 +15,7 @@ import {
   UPDATE_COMMENT,
   UPDATE_COMMENT_VOTE,
   UPDATE_POST_VOTE,
+  UPDATE_POSTS_SORTING_METHOD,
 } from '../actions';
 
 function categories(state = [], action) {
@@ -137,8 +138,22 @@ function comments(state = {}, action) {
   }
 }
 
+function sorting(state = {selectedSortingMethod: 'recent'}, action) {
+  switch (action.type) {
+    case UPDATE_POSTS_SORTING_METHOD:
+    const { selectedSortingMethod } = action;
+      return {
+        ...state,
+        selectedSortingMethod,
+      };
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   categories,
   comments,
   posts,
+  sorting,
 })
