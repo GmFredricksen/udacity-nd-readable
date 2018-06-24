@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,20 +9,50 @@ import * as ReadableAPI from '../../utils/ReadableAPI';
 import { updateCommentVote } from '../../actions';
 import MenuOfActionsOnEntity from '../MenuOfActionsOnEntity';
 import VotingSystem from '../VotingSystem';
+import CommentForm from '../CommentForm';
 
-const Comment = ({ comment, updateCommentVote }) => (
-  <ListItem divider>
-    <VotingSystem
-      updateVote={updateCommentVote}
-      voteScore={comment.voteScore}
-    />
-    <ListItemText
-      primary={comment.body}
-      secondary={`Author: ${comment.author} - ${fecha.format(comment.timestamp, 'mediumDate')}`}
-    />
-    <MenuOfActionsOnEntity entityToBeAffected={comment} />
-  </ListItem>
-);
+class Comment extends Component {
+  state = {
+    isEditModeOn: false,
+  }
+
+  setEditModeOn = () => {
+    this.setState({ isEditModeOn: true });
+  }
+
+  setEditModeOff = () => {
+    this.setState({ isEditModeOn: false });
+  }
+
+  render() {
+    const { comment, updateCommentVote } = this.props;
+    const { isEditModeOn } = this.state;
+
+    return (isEditModeOn ?
+      <CommentForm
+        comment={comment}
+        exitEditMode={this.setEditModeOff}
+        isEditModeOn
+        parentId={comment.parentId}
+      />
+      :
+      <ListItem divider>
+        <VotingSystem
+          updateVote={updateCommentVote}
+          voteScore={comment.voteScore}
+        />
+        <ListItemText
+          primary={comment.body}
+          secondary={`Author: ${comment.author} - ${fecha.format(comment.timestamp, 'mediumDate')}`}
+        />
+        <MenuOfActionsOnEntity
+          actionOnEdit={this.setEditModeOn}
+          entityToBeAffected={comment}
+        />
+      </ListItem>
+    )
+  }
+}
 
 Comment.propTypes = {
   comment: PropTypes.object.isRequired,

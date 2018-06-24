@@ -77,11 +77,14 @@ MenuOfActionsOnEntity.propTypes = {
   entityToBeAffected: PropTypes.object.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   editEntity: (entityToBeAffected) => {
     switch (typeOfEntityToAffect(entityToBeAffected)) {
       case 'post':
         window.location = `/posts/${entityToBeAffected.id}/edit`;
+        break;
+      case 'comment':
+        ownProps.actionOnEdit();
         break;
       default:
         return;

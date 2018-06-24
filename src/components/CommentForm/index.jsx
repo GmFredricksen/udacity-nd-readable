@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import FormGroup from '@material-ui/core/FormGroup';
 import Paper from '@material-ui/core/Paper';
 
-import { addComment } from '../../actions';
+import { addComment, updateComment } from '../../actions';
 import * as ReadableAPI from '../../utils/ReadableAPI';
 
 const styles = (theme) => ({
@@ -27,8 +27,22 @@ class CommentForm extends Component {
         author: '',
         body: '',
         parentId: this.props.parentId,
-      }
+      },
+      isEditModeOn: false,
     }
+  }
+
+  componentDidMount() {
+    const { comment, isEditModeOn } = this.props;
+
+    isEditModeOn && this.setState({
+      isEditModeOn,
+      commentToBeSubmitted: {
+        ...this.state.commentToBeSubmitted,
+        body: comment.body,
+        parentId: comment.parentId,
+      },
+    });
   }
 
   emptyTheForm = () => {
@@ -41,7 +55,7 @@ class CommentForm extends Component {
     })
   }
   formIsValid = ({ author, body }) => (
-    author.length && body.length
+    this.state.isEditModeOn ? body.length : author.length && body.length
   )
 
   handleChangeOfFormInputs = (event) => {
@@ -54,22 +68,32 @@ class CommentForm extends Component {
   }
 
   handleSubmit = (event, commentToBeSubmitted) => {
-    this.props.submitComment(event, commentToBeSubmitted)
-      .then(() => this.emptyTheForm());
+    event.preventDefault();
+
+    this.props.submitComment(commentToBeSubmitted)
+      .then(() => {
+        this.emptyTheForm();
+        this.props.isEditModeOn && this.props.exitEditMode();
+      });
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, exitEditMode, isEditModeOn } = this.props;
     const { commentToBeSubmitted } = this.state;
 
     return (
       <Paper className={classes.addCommentForm}>
         <Typography variant="headline" component="h5">
-          Add new Comment
+          {isEditModeOn ? 'Edit Comment' : 'Add new Comment'}
         </Typography>
 
         <form className={classes.container} autoComplete="off" onSubmit={(event) => this.handleSubmit(event, commentToBeSubmitted)}>
           <FormGroup>
+          {isEditModeOn ?
+            <Typography component="p">
+              {commentToBeSubmitted.author}
+            </Typography>
+            :
             <TextField
               id="authorName"
               label="Author"
@@ -79,6 +103,7 @@ class CommentForm extends Component {
               value={commentToBeSubmitted.author}
               onChange={this.handleChangeOfFormInputs}
             />
+          }
           </FormGroup>
           <FormGroup>
             <TextField
@@ -93,13 +118,22 @@ class CommentForm extends Component {
             />
           </FormGroup>
           <FormGroup>
+            {isEditModeOn &&
+              <Button
+                className={classes.button}
+                color="default"
+                onClick={() => exitEditMode()}
+              >
+                Cancel
+              </Button>
+            }
             <Button
               className={classes.button}
               color="primary"
               type="submit"
               disabled={!this.formIsValid(commentToBeSubmitted)}
             >
-              Add Comment
+              {isEditModeOn ? 'Update Comment' : 'Add Comment'}
             </Button>
           </FormGroup>
         </form>
@@ -110,16 +144,26 @@ class CommentForm extends Component {
 
 CommentForm.propTypes = {
   classes: PropTypes.object.isRequired,
+  comment: PropTypes.object,
+  exitEditMode: PropTypes.func,
+  isEditModeOn: PropTypes.bool,
   parentId: PropTypes.string.isRequired,
   submitComment: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  submitComment: (formSubmitEvent, commentToBeSubmitted) => {
-    formSubmitEvent.preventDefault();
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  submitComment: (commentToBeSubmitted) => {
+    if (ownProps.isEditModeOn) {
+      return ReadableAPI.updateComment(ownProps.comment.id, commentToBeSubmitted)
+        .then((comment) => dispatch(updateComment(comment)));
+    }
 
     return ReadableAPI.addComment(commentToBeSubmitted)
       .then((comment) => dispatch(addComment(comment)));
+  },
+  
+  updateComment: () => {
+    
   },
 });
 
