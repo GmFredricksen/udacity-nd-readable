@@ -11,6 +11,7 @@ import {
   SET_COMMENTS_FOR_POST,
   SET_POSTS,
   SET_POST,
+  UPDATE_COMMENT,
   UPDATE_COMMENT_VOTE,
   UPDATE_POST_VOTE,
 } from '../actions';
@@ -81,6 +82,17 @@ function comments(state = {}, action) {
         ...state,
         [postId]: comments,
       };
+    case UPDATE_COMMENT:
+      const { comment } = action;
+      commentsOfPost = state[comment.parentId];
+
+      return {
+        ...state,
+        [comment.parentId]: commentsOfPost.map((commentInState) => {
+          return commentInState.id === comment.id ?
+            comment : commentInState
+        })
+      }
     case UPDATE_COMMENT_VOTE:
       const { commentId, parentId, voteScore } = action;
       commentsOfPost = state[parentId];
