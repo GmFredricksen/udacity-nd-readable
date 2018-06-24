@@ -6,6 +6,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
@@ -33,6 +34,7 @@ class CategoriesDrawer extends Component {
             <ListItemText primary="All" />
           </ListItem>
           <Divider />
+          <ListSubheader>Categories</ListSubheader>
           {categories.length ?
             categories.map((category) => (
               <ListItem key={category.name} divider button component={Link} to={`/${category.name}`}>
