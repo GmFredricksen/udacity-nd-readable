@@ -6,6 +6,7 @@ export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_COMMENTS_FOR_POST = 'SET_COMMENTS_FOR_POST';
 export const SET_POSTS = 'SET_POSTS';
 export const SET_POST = 'SET_POST';
+export const SORT_POSTS = 'SORT_POSTS';
 export const UPDATE_POST_VOTE = 'UPDATE_POST_VOTE';
 export const UPDATE_COMMENT = 'UPDATE_COMMENT';
 export const UPDATE_COMMENT_VOTE = 'UPDATE_COMMENT_VOTE';
@@ -28,6 +29,13 @@ export function setPosts (posts) {
   return {
     type: SET_POSTS,
     posts,
+  }
+}
+
+export function sortPosts (sortingRule) {
+  return {
+    type: SORT_POSTS,
+    sortingRule,
   }
 }
 
