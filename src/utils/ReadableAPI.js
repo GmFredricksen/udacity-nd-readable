@@ -3,7 +3,7 @@ import uuidv4 from 'uuid/v4';
 const api = "http://localhost:3001"
 
 
-// Generate a unique token for storing your bookshelf data on the backend server.
+// Generate a unique token for temporarily storing your posts data.
 let token = localStorage.token
 if (!token)
   token = localStorage.token = Math.random().toString(36).substr(-8)
@@ -129,6 +129,22 @@ export const updateCommentVote = (commentId, vote) =>
     })
     .then(res => res.json())
     .then(data => data)
+  
+export const updateComment = (commentId, comment) =>
+  fetch(`${api}/comments/${commentId}`,
+    {
+      method: 'PUT',
+      headers: {
+        ...headers,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        body: comment.body,
+        timestamp: Date.now(),
+      })
+    })
+    .then(res => res.json())
+    .then(data => data)
 
 export const deleteComment = (commentId) =>
   fetch(`${api}/comments/${commentId}`,
@@ -138,14 +154,3 @@ export const deleteComment = (commentId) =>
     })
     .then(res => res.json())
     .then(data => data)
-
-// export const search = (query) =>
-//   fetch(`${api}/search`, {
-//     method: 'POST',
-//     headers: {
-//       ...headers,
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({ query })
-//   }).then(res => res.json())
-//     .then(data => data.books)
