@@ -16,6 +16,7 @@ import CategoriesDrawer from '../CategoriesDrawer';
 import PostsList from '../PostsList';
 import PostDetails from '../PostDetails';
 import PostForm from '../PostForm';
+import NotFound from '../NotFound';
 
 import './App.css';
 
@@ -112,12 +113,14 @@ class App extends Component {
             isMobileOpen={isMobileOpen}
             categories={categories}
           />
-
+          
           <Route exact path="/" render={() => (
             <PostsList />
           )} />
 
           <Switch>
+            <Route path="/404" component={NotFound} />
+
             <Route path="/posts/create" component={PostForm} />
             <Route path="/posts/:post_id/edit" render={({match}) => (
               <PostForm postId={match.params.post_id} />
