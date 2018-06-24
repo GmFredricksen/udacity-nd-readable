@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import * as ReadableAPI from '../../utils/ReadableAPI';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Typography from '@material-ui/core/Typography';
 
@@ -40,9 +41,11 @@ class CommentsList extends Component {
         {(comments[post.id] && comments[post.id].length) ?
           comments[post.id].map((comment) => <Comment key={comment.id} comment={comment} />)
           :
-          <Typography component="p">
-            No comments available
-          </Typography>
+          <ListItem>
+            <Typography component="p">
+              No comments available
+            </Typography>
+          </ListItem>
         }
       </List>
     );
