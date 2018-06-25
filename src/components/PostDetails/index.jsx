@@ -9,6 +9,7 @@ import { setPost } from '../../actions';
 import CommentForm from '../CommentForm';
 import CommentsList from '../CommentsList';
 import Post from '../Post';
+import NotFound from '../NotFound';
 
 const styles = (theme) => ({
   commentsListBox: {
@@ -32,22 +33,19 @@ class PostDetails extends Component {
   render() {
     const { classes, post, postId } = this.props;
 
-    return (
+    return ( post ?
       <section className={classes.content}>
         <div className={classes.toolbar} />
-
-        {post &&
           <Post post={post} />
-        }
 
-        <CommentForm parentId={postId} />
+          <CommentForm parentId={postId} />
 
-        <Paper className={classes.commentsListBox}>
-          {post &&
-            <CommentsList post={post} />
-          }
-        </Paper>
+          <Paper className={classes.commentsListBox}>
+              <CommentsList post={post} />
+          </Paper>
       </section>
+      :
+      <NotFound />
     );
   }
 }
@@ -73,7 +71,7 @@ function mapDispatchToProps(dispatch) {
   return {
     getPost: (postId) => {
       ReadableAPI.getPost(postId)
-        .then((post) => dispatch(setPost(post)));
+        .then((post) => Object.keys(post).length && dispatch(setPost(post)));
     },
   }
 }
