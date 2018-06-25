@@ -36,7 +36,7 @@ class PostDetails extends Component {
     return ( post ?
       <section className={classes.content}>
         <div className={classes.toolbar} />
-          <Post post={post} />
+          <Post post={post} isFromDetail />
 
           <CommentForm parentId={postId} />
 

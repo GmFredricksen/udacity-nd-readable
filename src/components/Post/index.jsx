@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Badge from '@material-ui/core/Badge';
+// import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
+import Chip from '@material-ui/core/Chip';
 import CommentIcon from '@material-ui/icons/Comment';
 import FaceIcon from '@material-ui/icons/Face';
 import Typography from '@material-ui/core/Typography';
@@ -35,7 +37,7 @@ const styles = (theme) => ({
 
 class Post extends Component {
   render() {
-    const { classes, post, updatePostVote } = this.props;
+    const { classes, isFromDetail, post, updatePostVote } = this.props;
 
     return (
       post ?
@@ -47,8 +49,16 @@ class Post extends Component {
               </Avatar>
             }
             action={<MenuOfActionsOnEntity entityToBeAffected={post} />}
-            title={<Link to={`/${post.category}/${post.id}`}>{post.title}</Link>}
-            subheader={<Link to={`/${post.category}/${post.id}`}>{fecha.format(post.timestamp, 'mediumDate')} - <em>{post.author}</em></Link>}
+            title={isFromDetail ?
+              <h1>{post.title}</h1>
+              :
+              <Link to={`/${post.category}/${post.id}`}>{post.title}</Link>
+            }
+            subheader={isFromDetail ?
+              <h4>{fecha.format(post.timestamp, 'mediumDate')} - <em>Author: {post.author}</em></h4>
+              :
+              <Link to={`/${post.category}/${post.id}`}>{fecha.format(post.timestamp, 'mediumDate')} - <em>Author: {post.author}</em></Link>
+            }
           />
 
           <CardContent>
@@ -62,11 +72,16 @@ class Post extends Component {
               updateVote={updatePostVote}
               voteScore={post.voteScore}
             />
-            <IconButton aria-label="Comments" component={Link} to={`/${post.category}/${post.id}`}>
-              <Badge badgeContent={post.commentCount} color="secondary">
-                <CommentIcon />
-              </Badge>
-            </IconButton>
+            <Link aria-label="Comments" to={`/${post.category}`}>
+              <Chip label={post.category} className={classes.chip} />
+            </Link>
+            {!isFromDetail &&
+              <IconButton aria-label="Comments" component={Link} to={`/${post.category}/${post.id}`}>
+                <Badge badgeContent={post.commentCount} color="secondary">
+                  <CommentIcon />
+                </Badge>
+              </IconButton>
+            }
           </CardActions>
         </Card>
         :
@@ -82,11 +97,13 @@ class Post extends Component {
 }
 
 Post.defaultProps = {
+  isFromDetail: false,
   post: null,
 };
 
 Post.propTypes = {
   classes: PropTypes.object.isRequired,
+  isFromDetail: PropTypes.bool,
   post: PropTypes.object,
   updatePostVote: PropTypes.func.isRequired,
 };
