@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
@@ -21,7 +23,7 @@ const styles = (theme) => ({
 
 class CategoriesDrawer extends Component {
   render() {
-    const { classes, handleDrawerToggle, isMobileOpen } = this.props;
+    const { categories, classes, handleDrawerToggle, isMobileOpen } = this.props;
 
     const drawer = (
       <div>
@@ -32,13 +34,14 @@ class CategoriesDrawer extends Component {
             <ListItemText primary="All" />
           </ListItem>
           <Divider />
-          <ListItem button component={Link} to="/cat1">
-            <ListItemText primary="Category 1" />
-          </ListItem>
-          <Divider />
-          <ListItem button component={Link} to="/cat2">
-            <ListItemText primary="Category 2" />
-          </ListItem>
+          <ListSubheader>Categories</ListSubheader>
+          {categories.length ?
+            categories.map((category) => (
+              <ListItem key={category.name} divider button component={Link} to={`/${category.name}`}>
+                <ListItemText primary={category.name} />
+              </ListItem>
+            )) : ''
+          }
         </List>
       </div>
     );
@@ -76,5 +79,12 @@ class CategoriesDrawer extends Component {
     );
   }
 }
+
+CategoriesDrawer.propTypes = {
+  categories: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  classes: PropTypes.object.isRequired,
+  handleDrawerToggle: PropTypes.func.isRequired,
+  isMobileOpen: PropTypes.bool.isRequired,
+};
 
 export default withStyles(styles)(CategoriesDrawer);

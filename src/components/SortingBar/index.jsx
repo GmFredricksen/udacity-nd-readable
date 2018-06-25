@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+
+import { sortPosts, updatePostsSortingMethod } from '../../actions';
 
 const styles = (theme) => ({
   sortingPostsTabs: {
@@ -12,33 +16,48 @@ const styles = (theme) => ({
 });
 
 class SortingBar extends Component {
-  state = {
-    selectedSortingMethod: 0,
-  }
-
   handleChangeSortingMethod = (event, value) => {
-    this.setState({ selectedSortingMethod: value });
+    this.props.sortItems(value ? 'popular' : 'recent');
   };
 
   render() {
-    const { selectedSortingMethod } = this.state;
-    const { classes } = this.props;
+    const { classes, selectedSortingMethod } = this.props;
 
     return (
       <Paper className={classes.sortingPostsTabs}>
         <Tabs
-          value={selectedSortingMethod}
+          value={selectedSortingMethod === 'recent' ? 0 : 1}
           onChange={this.handleChangeSortingMethod}
           indicatorColor="primary"
           textColor="primary"
           centered
         >
-          <Tab label="Popular" />
           <Tab label="Recent" />
+          <Tab label="Popular" />
         </Tabs>
       </Paper>
     );
   }
 }
 
-export default withStyles(styles)(SortingBar);
+SortingBar.propTypes = {
+  classes: PropTypes.object.isRequired,
+  selectedSortingMethod: PropTypes.string.isRequired,
+  sortItems: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = ({ sorting }) => ({
+  selectedSortingMethod: sorting.selectedSortingMethod,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  sortItems: (sortingRule) => {
+    dispatch(updatePostsSortingMethod(sortingRule))
+    dispatch(sortPosts(sortingRule))
+  },
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withStyles(styles)(SortingBar));

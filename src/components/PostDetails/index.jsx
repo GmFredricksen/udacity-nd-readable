@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Typography from '@material-ui/core/Typography';
+import * as ReadableAPI from '../../utils/ReadableAPI';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import FormGroup from '@material-ui/core/FormGroup';
 
-import Comment from '../Comment';
+import { setPost } from '../../actions';
+import CommentForm from '../CommentForm';
+import CommentsList from '../CommentsList';
 import Post from '../Post';
+import NotFound from '../NotFound';
 
 const styles = (theme) => ({
-  addCommentForm: {
-    padding: theme.spacing.unit * 4,
-    marginTop: theme.spacing.unit * 2,
-  },
   commentsListBox: {
     marginTop: theme.spacing.unit * 2,
   },
@@ -29,58 +24,59 @@ const styles = (theme) => ({
 });
 
 class PostDetails extends Component {
-  render() {
-    const { classes } = this.props;
+  componentDidMount() {
+    const postId = this.props.postId;
 
-    return (
+    this.props.getPost(postId);
+  }
+
+  render() {
+    const { classes, post, postId } = this.props;
+
+    return ( post ?
       <section className={classes.content}>
         <div className={classes.toolbar} />
-        
-        <Post />
+          <Post post={post} isFromDetail />
 
-        <Paper className={classes.addCommentForm}>
-          <Typography variant="headline" component="h5">
-            Add new Comment
-          </Typography>
+          <CommentForm parentId={postId} />
 
-          <form className={classes.container} autoComplete="off">
-            <FormGroup>
-              <TextField
-                id="authorName"
-                label="Author"
-                className={classes.textField}
-                margin="normal"
-              />
-            </FormGroup>
-            <FormGroup>
-              <TextField
-                id="commentMessage"
-                label="Message"
-                className={classes.textField}
-                margin="normal"
-                multiline
-              />
-            </FormGroup>
-            <FormGroup>
-              <Button className={classes.button} color="primary">
-                Add Comment
-              </Button>
-            </FormGroup>
-          </form>
-        </Paper>
-
-        <Paper className={classes.commentsListBox}>
-          <List
-            subheader={<ListSubheader component="div">Comments: 999</ListSubheader>}
-          >
-            <Divider />
-            
-            <Comment />
-          </List>
-        </Paper>
+          <Paper className={classes.commentsListBox}>
+              <CommentsList post={post} />
+          </Paper>
       </section>
+      :
+      <NotFound />
     );
   }
 }
 
-export default withStyles(styles)(PostDetails);
+PostDetails.propTypes = {
+  classes: PropTypes.object.isRequired,
+  getPost: PropTypes.func.isRequired,
+  postId: PropTypes.string.isRequired,
+  post: PropTypes.object,
+};
+
+function mapStateToProps({ posts }, ownProps) {
+  if (posts.length) {
+    return {
+      post: posts.find((post) => post.id === ownProps.postId)
+    };
+  }
+
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getPost: (postId) => {
+      ReadableAPI.getPost(postId)
+        .then((post) => Object.keys(post).length && dispatch(setPost(post)));
+    },
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withStyles(styles)(PostDetails));
