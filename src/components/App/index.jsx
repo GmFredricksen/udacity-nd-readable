@@ -16,7 +16,6 @@ import CategoriesDrawer from '../CategoriesDrawer';
 import PostsList from '../PostsList';
 import PostDetails from '../PostDetails';
 import PostForm from '../PostForm';
-import NotFound from '../NotFound';
 
 import './App.css';
 
