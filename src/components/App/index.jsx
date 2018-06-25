@@ -119,8 +119,6 @@ class App extends Component {
           )} />
 
           <Switch>
-            <Route path="/404" component={NotFound} />
-
             <Route path="/posts/create" component={PostForm} />
             <Route path="/posts/:post_id/edit" render={({match}) => (
               <PostForm postId={match.params.post_id} />
